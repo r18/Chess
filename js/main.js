@@ -7,29 +7,29 @@ function main(){
   animate();
   window.onkeydown = function(e){
     console.log(e.keyCode); 
-   switch(e.keyCode){
+    switch(e.keyCode){
       case 38:
         camera.position.y += 0.5;
-  camera.lookAt(mesh.position);
+        camera.lookAt(mesh.position);
         draw();
         break;
       case 37:
         camera.position.x -= 0.5;
-  camera.lookAt(mesh.position);
+        camera.lookAt(mesh.position);
         draw();
         break;
       case 40:
         camera.position.y -= 0.5;
-  camera.lookAt(mesh.position);
+        camera.lookAt(mesh.position);
         draw();
         break;
       case 39:
         camera.position.x += 0.5;
-  camera.lookAt(mesh.position);
+        camera.lookAt(mesh.position);
         draw();
         break;
       default:
-       break;
+        break;
 
     }
 
@@ -58,8 +58,9 @@ function init(){
 
 }
 
-function createScene( geometry ) {
- 	var material = new THREE.MeshLambertMaterial( { color: 0x660000 } );
+function createScene( geometry,materials ) {
+  console.log(materials);
+  var material = new THREE.MeshFaceMaterial(materials);
   mesh = new THREE.Mesh( geometry, material );
   scene.add( mesh );
   render();
@@ -75,9 +76,9 @@ function render() {
   camera.position.z = Math.cos(theta)*7 ;
   camera.position.y = Math.cos(theta/3)*7+4;
   theta += 0.05;
-  
+
   camera.lookAt(mesh.position)+
-  draw();
+    draw();
 }
 function draw(){
   renderer.render(scene,camera);
