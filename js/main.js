@@ -1,6 +1,6 @@
 function main(){
-  mesh="";
   camera ="";
+  Pieces = [];
   scene = "";
   theta = 0;
   init();
@@ -10,23 +10,19 @@ function main(){
     switch(e.keyCode){
       case 38:
         camera.position.y += 0.5;
-        camera.lookAt(mesh.position);
-        draw();
+        render();
         break;
       case 37:
         camera.position.x -= 0.5;
-        camera.lookAt(mesh.position);
-        draw();
+        render();
         break;
       case 40:
         camera.position.y -= 0.5;
-        camera.lookAt(mesh.position);
-        draw();
+        render();
         break;
       case 39:
         camera.position.x += 0.5;
-        camera.lookAt(mesh.position);
-        draw();
+        render();
         break;
       default:
         break;
@@ -50,16 +46,10 @@ function init(){
   renderer = new THREE.WebGLRenderer( {antialias: true} );
   renderer.setSize(600,600);
 
-  cvs.appendChild(renderer.domElement);
-}
+  Pieces.push(new Piece("Queen"));
+  
 
-function genPiece( geometry,mater,als ) {
-  console.log(materials);
-  var material = new THREE.MeshFaceMaterial(materials);
-  mesh = new THREE.Mesh( geometry, material );
-  scene.add( mesh );
-  var p = new Piece(mesh);
-  pieces.addPiece(p);
+  cvs.appendChild(renderer.domElement);
 }
 
 function animate(){
@@ -73,9 +63,10 @@ function render() {
   camera.position.y = Math.cos(theta/3)*7+4;
   theta += 0.05;
 
-  camera.lookAt(mesh.position);
+  camera.lookAt(new THREE.Vector3(0,0,0));
     draw();
 }
+
 function draw(){
   renderer.render(scene,camera);
 }
