@@ -31,7 +31,6 @@ function main(){
       default:
         break;
     }
-
   }
 }
 
@@ -50,17 +49,17 @@ function init(){
   cvs = document.getElementById("cvs");
   renderer = new THREE.WebGLRenderer( {antialias: true} );
   renderer.setSize(600,600);
-  var loader = new THREE.JSONLoader();
-  loader.load("js/queen.js",createScene);
 
   cvs.appendChild(renderer.domElement);
 }
 
-function createScene( geometry,materials ) {
+function genPiece( geometry,mater,als ) {
+  console.log(materials);
   var material = new THREE.MeshFaceMaterial(materials);
   mesh = new THREE.Mesh( geometry, material );
   scene.add( mesh );
-  render();
+  var p = new Piece(mesh);
+  pieces.addPiece(p);
 }
 
 function animate(){
@@ -74,9 +73,11 @@ function render() {
   camera.position.y = Math.cos(theta/3)*7+4;
   theta += 0.05;
 
-  camera.lookAt(mesh.position)+
+  camera.lookAt(mesh.position);
     draw();
 }
 function draw(){
   renderer.render(scene,camera);
 }
+
+
