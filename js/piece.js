@@ -10,13 +10,14 @@ function Piece(type,pos){
   }.bind(this));
   this.promise = d.promise();
 }
-
-//-----------------------Methods
+//-----------------------Const
 Piece.prototype.typeToURL = {
   queen : "js/queen.js",
   board : "js/chess_board.js"
 };
 
+Piece.prototype.unit = 2.5
+//-----------------------Methods
 
 Piece.prototype.loadMesh = function(url){
   var d = $.Deferred();
@@ -35,7 +36,7 @@ addMethod(Piece.prototype,"setPos",function(x,y,z){
   this.mesh.position = {x:x,y:y,z:z};
 });
 addMethod(Piece.prototype,"setPos",function(n,m){
-  this.mesh.position = {x:(n-4)*2.5,y:0,z:(m-4)*2.5};
+  this.mesh.position = {x:(n-4)*this.unit,y:0,z:(m-4)*this.unit};
 });
 addMethod(Piece.prototype,"setPos",function(p){
   this.mesh.position = p;
