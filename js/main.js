@@ -71,4 +71,13 @@ function draw(){
   renderer.render(scene,camera);
 }
 
-
+function addMethod(obj,name,fn){
+  var old = obj[name];
+  obj[name] = function (){
+    if(fn.length == arguments.length){
+      return fn.apply(this, arguments);
+    }else {
+      return old.apply(this, arguments);
+    }
+  }
+}

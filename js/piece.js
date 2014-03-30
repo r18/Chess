@@ -1,7 +1,7 @@
-function Piece(type){
+function Piece(type,pos){
+  this.pos = pos;  
   this.type = type;
   this.loadMesh("js/queen.js");
-
 }
 
 Piece.prototype.typeToURL = {
