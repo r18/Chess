@@ -2,13 +2,14 @@ function Piece(type,pos){
  //--------------------Member
   this.pos = pos;  
   this.type = type;
-
+  var d = $.Deferred();
 //---------------------Overload Methods
   addMethod(this,"setPos",function(x,y,z){
     this.mesh.position = {x:x,y:y,z:z};
   });
   addMethod(this,"setPos",function(n,m){
-    this.mesh.position = {x:n,y:0,z:m};
+   console.log(this);
+    this.mesh.position = {x:(n-4)*2.5,y:0,z:(m-4)*2.5};
   });
   addMethod(this,"setPos",function(p){
     this.mesh.position = p;
@@ -18,8 +19,11 @@ function Piece(type,pos){
   });
 //----------------------Initializer 
   this.loadMesh(this.typeToURL[type]).done(function () {
-    this.setPos(pos); 
+    pos&&this.setPos(pos); 
+    console.log(this.mesh);
+    d.resolve();
   }.bind(this));
+  this.promise = d.promise();
 }
 
 //-----------------------Methods
@@ -39,5 +43,4 @@ Piece.prototype.loadMesh = function(url){
   }.bind(this));
   return d.promise();
 }
-
 

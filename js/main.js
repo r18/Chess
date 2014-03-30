@@ -48,8 +48,11 @@ function init(){
   renderer.setSize(600,600);
 
   var unit = 2.5;
-  for(var i=-4;i<4;i++)Pieces.push(new Piece("queen",{x:unit*i,y:0,z:0}));
-  Pieces.push(new Piece("board",{x:-1.6,y:-1.9,z:1}));//XXX
+  for(var i=-4;i<4;i++)Pieces.push(new Piece("queen"));
+  board = new Piece("board",{x:-1.6,y:-1.9,z:1});//XXX
+  for(i in Pieces)Pieces[i].promise.done(function(){
+    Pieces[i].setPos(i,0);
+  });  
   
 
   cvs.appendChild(renderer.domElement);
