@@ -50,10 +50,15 @@ function init(){
   var unit = 2.5;
   for(var i=-4;i<4;i++)Pieces.push(new Piece("queen"));
   board = new Piece("board",{x:-1.6,y:-1.9,z:1});//XXX
-  for(i in Pieces)Pieces[i].promise.done(function(){
-    Pieces[i].setPos(i,0);
-  });  
-  
+  for(i in Pieces){
+    (function(i){
+      Pieces[i].promise.done(setTimeout(function(){
+        Pieces[i].setPos(i,0);
+        console.log(i);
+      },100));  
+    }(i))
+  }
+
 
   cvs.appendChild(renderer.domElement);
 }
@@ -71,7 +76,7 @@ function render() {
   theta += 0.005;
 
   camera.lookAt(lookAt);
-    draw();
+  draw();
 }
 
 function draw(){
