@@ -1,9 +1,9 @@
 function main(){
   camera ="";
   Pieces = [];
-  lookAt = new THREE.Vector3(0,5,0);
+  lookAt = new THREE.Vector3(0,3,0);
   scene = "";
-  theta = 0;
+  theta = 6.7;
   init();
   animate();
   window.onkeydown = function(e){
@@ -47,7 +47,8 @@ function init(){
   renderer = new THREE.WebGLRenderer( {antialias: true} );
   renderer.setSize(600,600);
 
-  Pieces.push(new Piece("Queen",{x:0,y:0,z:10}));
+  Pieces.push(new Piece("queen",{x:0,y:0,z:0}));
+  Pieces.push(new Piece("board",{x:3,y:-1.9,z:0}));
   
 
   cvs.appendChild(renderer.domElement);
@@ -61,8 +62,8 @@ function animate(){
 function render() {
   camera.position.x = Math.sin(theta)*7; 
   camera.position.z = Math.cos(theta)*7 ;
-  camera.position.y = Math.cos(theta/3)*7+4;
-  theta += 0.05;
+  camera.position.y = Math.cos(theta/3)*4+4;
+  theta += 0.005;
 
   camera.lookAt(lookAt);
     draw();

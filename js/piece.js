@@ -17,15 +17,16 @@ function Piece(type,pos){
     this.mesh.position = {x:0,y:0,z:0};
   });
 //----------------------Initializer 
-  this.loadMesh("js/queen.js").done(function () {
+  console.log(this.typeToURL);
+  this.loadMesh(this.typeToURL[type]).done(function () {
     this.setPos(pos); 
-    console.log(this);
   }.bind(this));
 }
 
 //-----------------------Methods
 Piece.prototype.typeToURL = {
-  queen : "js/queen.js"
+  queen : "js/queen.js",
+  board : "js/chess_board.js"
 };
 
 Piece.prototype.loadMesh = function(url){
