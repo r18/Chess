@@ -47,8 +47,9 @@ function init(){
   renderer = new THREE.WebGLRenderer( {antialias: true} );
   renderer.setSize(600,600);
 
-  Pieces.push(new Piece("queen",{x:0,y:0,z:0}));
-  Pieces.push(new Piece("board",{x:3,y:-1.9,z:0}));
+  var unit = 2.5;
+  for(var i=-4;i<4;i++)Pieces.push(new Piece("queen",{x:unit*i,y:0,z:0}));
+  Pieces.push(new Piece("board",{x:-1.6,y:-1.9,z:1}));//XXX
   
 
   cvs.appendChild(renderer.domElement);
@@ -60,9 +61,10 @@ function animate(){
 }
 
 function render() {
-  camera.position.x = Math.sin(theta)*7; 
-  camera.position.z = Math.cos(theta)*7 ;
-  camera.position.y = Math.cos(theta/3)*4+4;
+  var r = 15;
+  camera.position.x = Math.sin(theta)*r; 
+  camera.position.z = Math.cos(theta)*r ;
+  camera.position.y = Math.cos(theta/3)*4+6;
   theta += 0.005;
 
   camera.lookAt(lookAt);

@@ -17,7 +17,6 @@ function Piece(type,pos){
     this.mesh.position = {x:0,y:0,z:0};
   });
 //----------------------Initializer 
-  console.log(this.typeToURL);
   this.loadMesh(this.typeToURL[type]).done(function () {
     this.setPos(pos); 
   }.bind(this));
