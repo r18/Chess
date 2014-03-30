@@ -1,6 +1,7 @@
 function main(){
   camera ="";
   Pieces = [];
+  lookAt = new THREE.Vector3(0,5,0);
   scene = "";
   theta = 0;
   init();
@@ -46,7 +47,7 @@ function init(){
   renderer = new THREE.WebGLRenderer( {antialias: true} );
   renderer.setSize(600,600);
 
-  Pieces.push(new Piece("Queen"));
+  Pieces.push(new Piece("Queen",{x:0,y:0,z:10}));
   
 
   cvs.appendChild(renderer.domElement);
@@ -63,7 +64,7 @@ function render() {
   camera.position.y = Math.cos(theta/3)*7+4;
   theta += 0.05;
 
-  camera.lookAt(new THREE.Vector3(0,0,0));
+  camera.lookAt(lookAt);
     draw();
 }
 
@@ -76,7 +77,7 @@ function addMethod(obj,name,fn){
   obj[name] = function (){
     if(fn.length == arguments.length){
       return fn.apply(this, arguments);
-    }else {
+    }else if(typeof old == 'function') {
       return old.apply(this, arguments);
     }
   }
