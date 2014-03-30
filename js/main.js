@@ -30,7 +30,6 @@ function main(){
         break;
       default:
         break;
-
     }
 
   }
@@ -55,11 +54,9 @@ function init(){
   loader.load("js/queen.js",createScene);
 
   cvs.appendChild(renderer.domElement);
-
 }
 
 function createScene( geometry,materials ) {
-  console.log(materials);
   var material = new THREE.MeshFaceMaterial(materials);
   mesh = new THREE.Mesh( geometry, material );
   scene.add( mesh );
