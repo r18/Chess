@@ -36,7 +36,7 @@ function init(){
   board = new Board();
   board.linesUp();
   solver = new Solver();
-  solver.checkBoard(4);
+  a = solver.checkBoard(8);
 }
 
 

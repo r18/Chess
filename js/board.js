@@ -60,6 +60,8 @@ Board.prototype.move = function(name,m,n){
   this.pieces[name].setPos(m,n);    
 }
 
+Board.prototype.readBoard = function(b){
+}
 
 //------------------------------Overload Methods
 addMethod(Board.prototype,"addPiece",function(name,type,pos){
@@ -69,3 +71,5 @@ addMethod(Board.prototype,"addPiece",function(name,type,pos){
 addMethod(Board.prototype,"addPiece",function(name,type){
   this.pieces[name] = new Piece(this.scene,type); 
 });
+
+

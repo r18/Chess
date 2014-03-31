@@ -12,12 +12,15 @@ Solver.prototype.checkBoard  = function(n){
     i++;
     if(this.check(qBoard)){
       ans.push(this.clone(qBoard));
+      break;
     }
   }
+  
   for(var i=0;i<ans.length;i++){
     this.show(ans[i]);
   }
-  console.log(ans.length);
+  
+  return ans;
 };
 
 Solver.prototype.checkTilt = function (qBoard){
@@ -67,13 +70,13 @@ Solver.prototype.clone = function(qBoard){
 Solver.prototype.init = function(n){
   var res = [];
   for(var j=0;j<n;j++){
-    var array = [1];
-    for(var i=0;i<n-1;i++){
-      array.push(0);
+    var array = [];
+    for(var i=0;i<n;i++){
+     if(i != n-j-1) array.push(0);
+     else array.push(1);
     }
     res.push(array);
   }
-  this.show(res);
   return res;
 }
 Solver.prototype.show = function(qBoard){
