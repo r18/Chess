@@ -61,6 +61,9 @@ Board.prototype.move = function(name,m,n){
 }
 
 Board.prototype.readBoard = function(b){
+  for(i in b){
+    this.move(b[i].name,b[i].m,b[i].n);
+  }
 }
 
 //------------------------------Overload Methods
