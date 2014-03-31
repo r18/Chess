@@ -9,7 +9,9 @@ function Piece(scene,type,pos){
   //----------------------Initializer 
   this.loadMesh(this.typeToURL[type]).done(function () {
     pos&&this.setPos(pos); 
+    console.log("in ld");
     d.resolve();
+
   }.bind(this));
   this.promise = d.promise();
 }
@@ -49,7 +51,6 @@ addMethod(Piece.prototype,"setPos",function(x,y,z){
 });
 
 addMethod(Piece.prototype,"setPos",function(n,m){
- console.log(this);
   this.pos = {n:n,m:m};
   this.mesh.position = {x:(n-4)*this.unit,y:0,z:(m-3)*this.unit};
 });

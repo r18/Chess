@@ -34,6 +34,9 @@ function main(){
 
 function init(){
   board = new Board();
+  board.linesUp();
+  solver = new Solver();
+  solver.checkBoard(4);
 }
 
 

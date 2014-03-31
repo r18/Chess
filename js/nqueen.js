@@ -15,7 +15,7 @@ Solver.prototype.checkBoard  = function(n){
     }
   }
   for(var i=0;i<ans.length;i++){
-    show(ans[i]);
+    this.show(ans[i]);
   }
   console.log(ans.length);
 };
