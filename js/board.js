@@ -20,7 +20,7 @@ function Board() {
   for(var i=0;i<8;i++)this.addPiece("q"+i,"queen");
   this.board = new Piece(this.scene,"board",{x:-1.6,y:-3.4,z:1});//XXX
 
-//  this.linesUp();
+  //  this.linesUp();
 
   cvs.appendChild(renderer.domElement);
 }
@@ -30,12 +30,11 @@ Board.prototype.linesUp = function(){
   var i=0;
   for(p in this.pieces){
     var d = $.Deferred();
-    (function(i,d,p){//TODO deferred accurately
-      this.pieces[p].promise.done(setTimeout(function(){
-
+    (function(i,d,p){
+      this.pieces[p].promise.done(function(){
         this.pieces[p].setPos(i%8,Math.floor(i/8));
         d.resolve(); 
-      }.bind(this),500));  
+      }.bind(this));  
     }.bind(this)(i,d,p))
     workQueue.push(d.promise());
     i++;

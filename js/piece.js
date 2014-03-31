@@ -9,7 +9,6 @@ function Piece(scene,type,pos){
   //----------------------Initializer 
   this.loadMesh(this.typeToURL[type]).done(function () {
     pos&&this.setPos(pos); 
-    console.log("in ld");
     d.resolve();
 
   }.bind(this));
@@ -42,7 +41,7 @@ Piece.prototype.hide = function(){
 
 Piece.prototype.show = function(){
   this.scene.add(this.mesh);
-  
+
 };
 //---------------------Overload Methods
 //--------SetPos
