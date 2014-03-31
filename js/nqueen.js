@@ -27,7 +27,6 @@ Solver.prototype.convertAnswer = function(ans){
   var res = [];
   for(i in ans){
     for(j in ans[i]){
-      console.log(ans[i][j]);
       if(ans[i][j] == 1)res.push({name:"q"+i,m:i,n:j});
     }
   }

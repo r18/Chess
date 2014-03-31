@@ -34,9 +34,10 @@ function main(){
 
 function init(){
   board = new Board();
-  board.linesUp();
-  solver = new Solver();
-  a = solver.checkBoard(8);
+  board.linesUp().done(function(){
+    solver = new Solver();
+    board.readBoard(solver.checkBoard(8));
+  });
 }
 
 
