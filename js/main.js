@@ -1,4 +1,6 @@
 function main(){
+  width = 1280;
+  height = 640;
   camera ="";
   Pieces = [];
   lookAt = new THREE.Vector3(0,3,0);
@@ -33,7 +35,7 @@ function main(){
 
 function init(){
   scene = new THREE.Scene();
-  camera = new THREE.PerspectiveCamera(75,300 / 300,0.1,1000);
+  camera = new THREE.PerspectiveCamera(75,width/ height,0.1,1000);
 
   camera.position.z = 17;
   camera.position.y = 8;
@@ -45,22 +47,31 @@ function init(){
 
   cvs = document.getElementById("cvs");
   renderer = new THREE.WebGLRenderer( {antialias: true} );
-  renderer.setSize(600,600);
+  renderer.setSize(width,height);
 
-  for(var i=-4;i<4;i++)Pieces.push(new Piece("queen"));
-  board = new Piece("board",{x:-1.6,y:-1.9,z:1});//XXX
+  for(var i=0;i<64;i++)Pieces.push(new Piece("queen"));
+  board = new Piece("board",{x:-1.6,y:-3.4,z:1});//XXX
+  var workQueue = [];
+
   for(i in Pieces){
-    (function(i){
+    var d = $.Deferred();
+    (function(i,d){
       Pieces[i].promise.done(setTimeout(function(){
-        Pieces[i].setPos(i,0);
+        Pieces[i].setPos(i%8,Math.floor(i/8));
         console.log(i);
+        d.resolve(); 
       },100));  
-    }(i))
+    }(i,d))
+    workQueue.push(d.promise());
   }
+
+  $.when.apply(this,workQueue).done(function () {
+  });
 
 
   cvs.appendChild(renderer.domElement);
 }
+
 
 function animate(){
   requestAnimationFrame( animate );
@@ -71,7 +82,7 @@ function render() {
   var r = 15;
   camera.position.x = Math.sin(theta)*r; 
   camera.position.z = Math.cos(theta)*r ;
-  camera.position.y = Math.cos(theta/3)*4+6;
+  camera.position.y = Math.cos(theta/3)*4+10;
   theta += 0.005;
 
   camera.lookAt(lookAt);
