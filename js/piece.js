@@ -1,7 +1,9 @@
-function Piece(type,pos){
+function Piece(scene,type,pos){
 
   //--------------------Member
   this.type = type;
+  this.scene = scene;
+
   var d = $.Deferred();
 
   //----------------------Initializer 
@@ -27,7 +29,7 @@ Piece.prototype.loadMesh = function(url){
   loader.load(url,function(geo,mats){
     var mat = new THREE.MeshFaceMaterial(mats);
     this.mesh = new THREE.Mesh(geo,mat);
-    scene.add(this.mesh);
+    this.scene.add(this.mesh);
     d.resolve();
   }.bind(this));
   return d.promise();
