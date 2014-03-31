@@ -29,12 +29,19 @@ Piece.prototype.loadMesh = function(url){
   loader.load(url,function(geo,mats){
     var mat = new THREE.MeshFaceMaterial(mats);
     this.mesh = new THREE.Mesh(geo,mat);
-    this.scene.add(this.mesh);
+    this.show();
     d.resolve();
   }.bind(this));
   return d.promise();
 };
+Piece.prototype.hide = function(){
+  this.scene.remove(this.mesh);
+};
 
+Piece.prototype.show = function(){
+  this.scene.add(this.mesh);
+  
+};
 //---------------------Overload Methods
 //--------SetPos
 addMethod(Piece.prototype,"setPos",function(x,y,z){
@@ -42,6 +49,8 @@ addMethod(Piece.prototype,"setPos",function(x,y,z){
 });
 
 addMethod(Piece.prototype,"setPos",function(n,m){
+ console.log(this);
+  this.pos = {n:n,m:m};
   this.mesh.position = {x:(n-4)*this.unit,y:0,z:(m-3)*this.unit};
 });
 

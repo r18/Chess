@@ -17,7 +17,7 @@ function Board() {
   renderer = new THREE.WebGLRenderer( {antialias: true} );
   renderer.setSize(width,height);
 
-  for(var i=0;i<5;i++)this.addPiece("q"+i,"queen");
+  for(var i=0;i<8;i++)this.addPiece("q"+i,"queen");
   this.board = new Piece(this.scene,"board",{x:-1.6,y:-3.4,z:1});//XXX
 
   this.linesUp();
