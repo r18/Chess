@@ -33,7 +33,7 @@ Piece.prototype.loadMesh = function(url){
     d.resolve();
   }.bind(this));
   return d.promise();
-}
+};
 
 //---------------------Overload Methods
 //--------SetPos
@@ -42,7 +42,6 @@ addMethod(Piece.prototype,"setPos",function(x,y,z){
 });
 
 addMethod(Piece.prototype,"setPos",function(n,m){
-  this.pos = {n:n,m:m};
   this.mesh.position = {x:(n-4)*this.unit,y:0,z:(m-3)*this.unit};
 });
 
