@@ -5,7 +5,6 @@ function Solver(){
 Solver.prototype.checkBoard  = function(n){
 
   var qBoard = this.init(n);
-  this.show(qBoard);
   var i=0;
   ans = [];
   while(this.genNextBoard(qBoard)){
@@ -16,9 +15,6 @@ Solver.prototype.checkBoard  = function(n){
     }
   }
   
-  for(var i=0;i<ans.length;i++){
-    this.show(ans[i]);
-  }
   
   return this.convertAnswer(ans[0]);
 };
