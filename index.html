@@ -5,12 +5,25 @@
   <script src="lib/jquery-2.1.0.js"></script>
   <script src="lib/three.js/build/three.js"></script>
   <script src="js/main.js"></script>
+  <script src="js/list.js"></script>
   <script src="js/piece.js"></script>
   <script src="js/nqueen.js"></script>
   <script src="js/board.js"></script>
  <title></title>
+ <style>
+  #cvs{
+    position:absolute;
+  }
+  #layer1{
+    position:absolute;
+    border:red 1px solid;
+    color:#00ff00;
+    z-index:1;
+  }
+ </style>
 </head>
 <body onload="main()">
+  <div id="layer1" >hoge</div>
   <div id="cvs"></div>
 </body>
 </html>

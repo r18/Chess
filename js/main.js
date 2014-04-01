@@ -38,6 +38,7 @@ function init(){
     solver = new Solver();
     board.readBoard(solver.checkBoard(8));
   });
+  list = new List(document.getElementById("layer1"));
 }
 
 

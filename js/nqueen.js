@@ -14,8 +14,8 @@ Solver.prototype.checkBoard  = function(n){
       break;
     }
   }
-  
-  
+
+
   return this.convertAnswer(ans[0]);
 };
 
@@ -78,8 +78,8 @@ Solver.prototype.init = function(n){
   for(var j=0;j<n;j++){
     var array = [];
     for(var i=0;i<n;i++){
-     if(i != n-j-1) array.push(0);
-     else array.push(1);
+      if(i != n-j-1) array.push(0);
+      else array.push(1);
     }
     res.push(array);
   }
