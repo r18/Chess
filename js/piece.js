@@ -23,6 +23,8 @@ Piece.prototype.typeToURL = {
   rook: "js/rook.js",
   bishop: "js/bishop.js",
   king: "js/king.js"
+  knight: "js/knight.js"
+
 
 };
 
