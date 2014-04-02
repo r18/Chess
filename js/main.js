@@ -39,6 +39,8 @@ function init(){
     board.readBoard(solver.checkBoard(8));
   });
   list = new List(document.getElementById("layer1"));
+  list.setColumn(["id","text"]);
+  list.appendRow({id:1,text:"hogehoge",onclick:function(e){console.log(e)}});
 }
 
 
