@@ -25,7 +25,11 @@ List.prototype.getIndexFromValue = function (key,value) {
 List.prototype.getRowFromValue = function (key,value){
   var r = this.getIndexFromValue(key,value);
   if(r == -1)console.log("Not found ,key: "+key+" ,value: "+value);
-  return this.data[r].data;
+  return this.data[r];
+}
+
+List.prototype.update = function () {
+ for(key in this.data)this.data[key].update();
 }
 List.prototype.removeRowWithIndex = function(i){
 
@@ -64,33 +68,46 @@ function ListData(data,dataType,target) {
   this.data = data; 
   this.dataType = dataType;
   this.table = target;
+  this.elements = {};
 }
 
 ListData.prototype.createElement = function(){
 
-  var row = document.createElement("tr");
+  this.elem = document.createElement("tr");
   var key;
   for(i in this.dataType){
     key = this.dataType[i];
-    var d = document.createElement("td");
+    this.elements[key] = document.createElement("td");
     if(key in this.data){
-      d.innerHTML = this.data[key];
-      row.appendChild(d);
+      this.elements[key].innerHTML = this.data[key];
     }
-    if("onclick" in this.data){
-      row.onclick = this.data.onclick;
-    } else {
-      row.onclick = this.onclick;
-    }
-    if("onmousemove" in this.data){
-      row.onmousemove= this.data.onmousemove;
-    } else {
-      row.onmousemove= this.onmousemove;
-    }
+    this.elem.appendChild(this.elements[key]);
   }
-  return row;
+
+  if("onclick" in this.data){
+    this.elem.onclick = this.data.onclick;
+  } else {
+    this.elem.onclick = this.onclick;
+  }
+  if("onmousemove" in this.data){
+    this.elem.onmousemove= this.data.onmousemove;
+  } else {
+    this.elem.onmousemove= this.onmousemove;
+  }
+  return this.elem;
 };
 
+ListData.prototype.update = function(){
+  var key ="";
+  for(i in this.dataType){
+    key = this.dataType[i]; 
+     console.log(this.data[key]);
+    if(this.elements[key].innerHTML != this.data[key]){
+     this.elements[key].innerHTML = this.data[key];
+    }
+  }
+}
+
 ListData.prototype.onmousemove = function (e) {
-  console.log(e); 
+//  console.log(e); 
 };

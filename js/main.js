@@ -38,9 +38,8 @@ function init(){
   board.linesUp().done(function(){
     solver = new Solver();
     board.readBoard(solver.checkBoard(8));
+    list.update();
   });
-  list.setColumn(["id","text"]);
-  list.appendRow({id:1,text:"hogehoge",onclick:function(e){console.log(this)}});
 }
 
 
@@ -62,6 +61,7 @@ function addMethod(obj,name,fn){
 }
 
 function expandObject(obj){
+ 
   if(typeof obj == "object"){
     var s = "";
     for(i in obj){
