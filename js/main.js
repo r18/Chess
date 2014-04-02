@@ -40,7 +40,7 @@ function init(){
   });
   list = new List(document.getElementById("layer1"));
   list.setColumn(["id","text"]);
-  list.appendRow({id:1,text:"hogehoge",onclick:function(e){console.log(e)}});
+  list.appendRow({id:1,text:"hogehoge",onclick:function(e){console.log(this)}});
 }
 
 

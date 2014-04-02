@@ -71,6 +71,6 @@ ListData.prototype.createElement = function(){
   return row;
 };
 
-ListData.prototype.onmousemove = function () {
- 
+ListData.prototype.onmousemove = function (e) {
+  console.log(e); 
 };
