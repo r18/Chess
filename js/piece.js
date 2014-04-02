@@ -22,7 +22,7 @@ Piece.prototype.typeToURL = {
   board : "js/chess_board.js",
   rook: "js/rook.js",
   bishop: "js/bishop.js",
-  king: "js/king.js"
+  king: "js/king.js",
   knight: "js/knight.js"
 
 

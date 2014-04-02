@@ -7,7 +7,6 @@ function main(){
   animation = true;
   theta = 6.7;
   init();
-  animate();
   window.onkeydown = function(e){
     console.log(e.keyCode); 
     switch(e.keyCode){
@@ -41,7 +40,11 @@ function init(){
   pieceList = new List(document.getElementById("pieceList"));
   answerList = new List(document.getElementById("answerList"));
   answerList.setColumn(["index"]);
+  show8Queen();
 
+}
+
+function initGame() {
   board = new Board(pieceList);
   board.linesUp().done(function(){
     board.render();
@@ -57,7 +60,6 @@ function init(){
       }
       answerList.appendRow({index:answerLength,
         onclick:function(e,ctx){
-          console.log(ctx);
           board.readBoard(answer[ctx.data.index]);
         }
       });
@@ -66,6 +68,34 @@ function init(){
   });
 }
 
+
+function show8Queen() {
+  board = new Board(pieceList);
+  console.log(board);
+  for(var i=0;i<8;i++)board.addPiece("q"+i,"queen");
+  board.board = new Piece(board.scene,"board",{x:-1.6,y:-3.4,z:1});
+  board.linesUp().done(function(){
+    board.render();
+    solver = new Solver();
+    answer = [];
+    var answerLength = 0;
+    var oldLength = 0;
+    solver.checkBoard(8,answer).progress(function (res) {
+      answerLength = res.answerLength;
+      if(answerLength != oldLength){
+        if(answerLength == 1)board.readBoard(answer[0]);
+        oldLength = answerLength;
+      }
+      answerList.appendRow({index:answerLength,
+        onclick:function(e,ctx){
+          board.readBoard(answer[ctx.data.index]);
+        }
+      });
+    }).done(function () {
+    });
+  });
+  animate();
+}
 
 function animate(){
   if(animation)requestAnimationFrame( animate );
