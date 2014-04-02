@@ -29,7 +29,7 @@ List.prototype.getRowFromValue = function (key,value){
 }
 
 List.prototype.update = function () {
- for(key in this.data)this.data[key].update();
+  for(key in this.data)this.data[key].update();
 }
 List.prototype.removeRowWithIndex = function(i){
 
@@ -103,14 +103,14 @@ ListData.prototype.update = function(){
   for(i in this.dataType){
     key = this.dataType[i]; 
     if(this.elements[key].innerHTML != this.data[key]){
-     this.elements[key].innerHTML = this.data[key];
+      this.elements[key].innerHTML = this.data[key];
     }
   }
 }
 
 ListData.prototype.bindCallbalck = function(fn){
   return function (e) {
-   fn(e,this)
+    fn(e,this)
   }.bind(this);
 };
 
@@ -118,7 +118,7 @@ ListData.prototype.onmousemove = function (e) {
 };
 
 ListData.prototype.onclick = function (e) {
-  
+
 }
 
 ListData.prototype.setValue = function (key,value) {

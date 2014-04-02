@@ -7,17 +7,17 @@ Solver.prototype.checkBoard  = function(n,ans){
   var qBoard = this.init(n);
   var timer1 = setTimeout(function(){
 
-  var i=0;
-  while(this.genNextBoard(qBoard)){
-    i++;
+    var i=0;
+    while(this.genNextBoard(qBoard)){
+      i++;
 
-    if(this.check(qBoard)){
-      d.notify({count:i,answerLength:answer.length});
-      ans.push(this.convertAnswer(this.clone(qBoard)));
-      if(answer.length == 25)break;
+      if(this.check(qBoard)){
+        d.notify({count:i,answerLength:answer.length});
+        ans.push(this.convertAnswer(this.clone(qBoard)));
+        if(answer.length == 25)break;
+      }
     }
-  }
-  d.resolve();
+    d.resolve();
   }.bind(this),1);
   return d.promise();
 };

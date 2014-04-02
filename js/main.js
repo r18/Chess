@@ -4,6 +4,7 @@ function main(){
   lookAt = new THREE.Vector3(0,3,0);
   board = "";
   scene = "";
+  animation = true;
   theta = 6.7;
   init();
   animate();
@@ -25,6 +26,10 @@ function main(){
       case 39:
         board.camera.position.x += 0.5;
         board.draw();
+        break;
+      case 13:
+        animation = !animation;
+        animate();
         break;
       default:
         break;
@@ -52,9 +57,10 @@ function init(){
       }
       answerList.appendRow({index:answerLength,
         onclick:function(e,ctx){
-         console.log(ctx);
-         board.readBoard(answer[ctx.data.index]);
-        }});
+          console.log(ctx);
+          board.readBoard(answer[ctx.data.index]);
+        }
+      });
     }).done(function () {
     });
   });
@@ -62,7 +68,7 @@ function init(){
 
 
 function animate(){
-  requestAnimationFrame( animate );
+  if(animation)requestAnimationFrame( animate );
   board.render();
 }
 
