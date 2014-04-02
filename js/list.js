@@ -101,7 +101,6 @@ ListData.prototype.update = function(){
   var key ="";
   for(i in this.dataType){
     key = this.dataType[i]; 
-     console.log(this.data[key]);
     if(this.elements[key].innerHTML != this.data[key]){
      this.elements[key].innerHTML = this.data[key];
     }
@@ -109,5 +108,9 @@ ListData.prototype.update = function(){
 }
 
 ListData.prototype.onmousemove = function (e) {
-//  console.log(e); 
+};
+
+ListData.prototype.setValue = function (key,value) {
+  if(key in this.data)this.data[key] = value;  
+  this.update();
 };

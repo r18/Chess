@@ -38,7 +38,6 @@ function init(){
   board.linesUp().done(function(){
     solver = new Solver();
     board.readBoard(solver.checkBoard(8));
-    list.update();
   });
 }
 

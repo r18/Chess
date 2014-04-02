@@ -57,7 +57,7 @@ Board.prototype.draw = function (){
 };
 
 Board.prototype.move = function(name,m,n){
-  this.pieceList.getRowFromValue("name",name).data.pos  = "{m:"+m+",n:"+n+"}";
+  this.pieceList.getRowFromValue("name",name).setValue("pos", "{m:"+m+",n:"+n+"}");
   this.pieces[name].setPos(m,n);    
 }
 
