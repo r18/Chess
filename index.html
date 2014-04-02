@@ -14,11 +14,14 @@
   #cvs{
     position:absolute;
   }
-  #layer1{
+  .layer1{
     position:absolute;
     border:red 1px solid;
     color:#00ff00;
     z-index:1;
+  }
+  #pieceList{
+    left:80%
   }
   td{
    padding:3px;
@@ -26,7 +29,8 @@
  </style>
 </head>
 <body onload="main()">
-  <div id="layer1" >Piece List</div>
+  <div class="layer1" id="pieceList" >Piece List</div>
+  <div class="layer1" id="answerList">Answer List</div>
   <div id="cvs"></div>
 </body>
 </html>

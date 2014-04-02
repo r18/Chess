@@ -33,8 +33,8 @@ function main(){
 }
 
 function init(){
-  pieceList = new List(document.getElementById("layer1"));
-  answerList = new List(document.getElementById("layer1"));
+  pieceList = new List(document.getElementById("pieceList"));
+  answerList = new List(document.getElementById("answerList"));
   answerList.setColumn(["index"]);
 
   board = new Board(pieceList);
