@@ -19,7 +19,11 @@ function Piece(scene,type,pos){
 Piece.prototype.typeToURL = {
   queen : "js/queen.js",
   pawn: "js/pawn.js",
-  board : "js/chess_board.js"
+  board : "js/chess_board.js",
+  rook: "js/rook.js",
+  bishop: "js/bishop.js",
+  king: "js/king.js"
+
 };
 
 Piece.prototype.unit = 2.5
