@@ -8,7 +8,10 @@ function Piece(scene,type,pos){
 
   //----------------------Initializer 
   this.loadMesh(this.typeToURL[type]).done(function () {
-    pos&&this.setPos(pos); 
+    if(pos){ 
+      if("m" in pos&& "n" in pos)this.setPos(pos.n,pos.m);
+      else this.setPos(pos); 
+    }
     d.resolve();
 
   }.bind(this));
