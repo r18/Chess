@@ -14,6 +14,7 @@ Solver.prototype.checkBoard  = function(n,ans){
     if(this.check(qBoard)){
       d.notify({count:i,answerLength:answer.length});
       ans.push(this.convertAnswer(this.clone(qBoard)));
+      if(answer.length == 25)break;
     }
   }
   d.resolve();

@@ -86,12 +86,12 @@ ListData.prototype.createElement = function(){
   }
 
   if("onclick" in this.data){
-    this.elem.onclick = this.data.onclick;
+    this.elem.onclick = this.bindCallbalck(this.data.onclick);
   } else {
     this.elem.onclick = this.onclick;
   }
   if("onmousemove" in this.data){
-    this.elem.onmousemove= this.data.onmousemove;
+    this.elem.onmousemove= this.bindCallbalck(this.data.onmousemove);
   } else {
     this.elem.onmousemove= this.onmousemove;
   }
@@ -108,8 +108,18 @@ ListData.prototype.update = function(){
   }
 }
 
+ListData.prototype.bindCallbalck = function(fn){
+  return function (e) {
+   fn(e,this)
+  }.bind(this);
+};
+
 ListData.prototype.onmousemove = function (e) {
 };
+
+ListData.prototype.onclick = function (e) {
+  
+}
 
 ListData.prototype.setValue = function (key,value) {
   if(key in this.data)this.data[key] = value;  

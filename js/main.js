@@ -50,9 +50,11 @@ function init(){
         if(answerLength == 1)board.readBoard(answer[0]);
         oldLength = answerLength;
       }
-        answerList.appendRow({index:answerLength,
-          onclick:function(){console.log(this);
-          }});
+      answerList.appendRow({index:answerLength,
+        onclick:function(e,ctx){
+         console.log(ctx);
+         board.readBoard(answer[ctx.data.index]);
+        }});
     }).done(function () {
     });
   });
