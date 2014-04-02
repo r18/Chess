@@ -1,4 +1,4 @@
-function Board() {
+function Board(list) {
   this.scene = new THREE.Scene();
   this.camera = new THREE.PerspectiveCamera(75,width/ height,0.1,1000);
   this.game = {};
@@ -8,6 +8,8 @@ function Board() {
   this.scene.add(this.camera);
 
   this.pieces = {};
+  this.pieceList = list;
+  this.pieceList.setColumn(["name","type","pos"]);
 
   light = new THREE.DirectionalLight(0xffffff,10);
   light.position.set(0, 1, 0).normalize();
@@ -18,9 +20,7 @@ function Board() {
   renderer.setSize(width,height);
 
   for(var i=0;i<8;i++)this.addPiece("q"+i,"queen");
-  this.board = new Piece(this.scene,"board",{x:-1.6,y:-3.4,z:1});//XXX
-
-  //  this.linesUp();
+  this.board = new Piece(this.scene,"board",{x:-1.6,y:-3.4,z:1});
 
   cvs.appendChild(renderer.domElement);
 }
@@ -57,6 +57,7 @@ Board.prototype.draw = function (){
 };
 
 Board.prototype.move = function(name,m,n){
+  this.pieceList.getRowFromValue("name",name).pos  = "{m:"+m+",n:"+n+"}";
   this.pieces[name].setPos(m,n);    
 }
 
@@ -68,10 +69,12 @@ Board.prototype.readBoard = function(b){
 
 //------------------------------Overload Methods
 addMethod(Board.prototype,"addPiece",function(name,type,pos){
+  this.pieceList.appendRow({name:name,type:type,pos:expandObject(pos)});
   this.pieces[name] = new Piece(this.scene,type,pos); 
 });
 
 addMethod(Board.prototype,"addPiece",function(name,type){
+  this.pieceList.appendRow({name:name,type:type,pos:"{m:0,n:0}"});
   this.pieces[name] = new Piece(this.scene,type); 
 });
 

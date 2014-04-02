@@ -15,12 +15,24 @@ List.prototype.appendRow= function(_data){
   this.table.appendChild(data.createElement());
 };
 
+List.prototype.getIndexFromValue = function (key,value) {
+  for(i in this.data){
+    if(this.data[i].data[key] == value)return i;
+  }
+  return -1;
+}
+
+List.prototype.getRowFromValue = function (key,value){
+  var r = this.getIndexFromValue(key,value);
+  if(r == -1)console.log("Not found ,key: "+key+" ,value: "+value);
+  return this.data[r].data;
+}
 List.prototype.removeRowWithIndex = function(i){
-  
+
 };
 
 List.prototype.insertRow = function () {
- 
+
 };
 
 List.prototype.removeColumn = function(){
@@ -55,18 +67,26 @@ function ListData(data,dataType,target) {
 }
 
 ListData.prototype.createElement = function(){
-  
+
   var row = document.createElement("tr");
   var key;
   for(i in this.dataType){
     key = this.dataType[i];
     var d = document.createElement("td");
     if(key in this.data){
-        d.innerHTML = this.data[key];
+      d.innerHTML = this.data[key];
       row.appendChild(d);
     }
-   if("onclick" in this.data)row.onclick = this.data.onclick;
-   if("onmousemove" in this.data)row.onmousemove= this.data.onmousemove;
+    if("onclick" in this.data){
+      row.onclick = this.data.onclick;
+    } else {
+      row.onclick = this.onclick;
+    }
+    if("onmousemove" in this.data){
+      row.onmousemove= this.data.onmousemove;
+    } else {
+      row.onmousemove= this.onmousemove;
+    }
   }
   return row;
 };

@@ -33,12 +33,12 @@ function main(){
 }
 
 function init(){
-  board = new Board();
+  list = new List(document.getElementById("layer1"));
+  board = new Board(list);
   board.linesUp().done(function(){
     solver = new Solver();
     board.readBoard(solver.checkBoard(8));
   });
-  list = new List(document.getElementById("layer1"));
   list.setColumn(["id","text"]);
   list.appendRow({id:1,text:"hogehoge",onclick:function(e){console.log(this)}});
 }
@@ -58,5 +58,17 @@ function addMethod(obj,name,fn){
     }else if(typeof old == 'function') {
       return old.apply(this, arguments);
     }
+  }
+}
+
+function expandObject(obj){
+  if(typeof obj == "object"){
+    var s = "";
+    for(i in obj){
+      s += expandObject(obj[i]) + " , ";
+    }
+    return s;
+  } else {
+    return obj.toString();
   }
 }
