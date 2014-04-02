@@ -33,11 +33,28 @@ function main(){
 }
 
 function init(){
-  list = new List(document.getElementById("layer1"));
-  board = new Board(list);
+  pieceList = new List(document.getElementById("layer1"));
+  answerList = new List(document.getElementById("layer1"));
+  answerList.setColumn(["index"]);
+
+  board = new Board(pieceList);
   board.linesUp().done(function(){
+    board.render();
     solver = new Solver();
-    board.readBoard(solver.checkBoard(8));
+    answer = [];
+    var answerLength = 0;
+    var oldLength = 0;
+    solver.checkBoard(8,answer).progress(function (res) {
+      answerLength = res.answerLength;
+      if(answerLength != oldLength){
+        if(answerLength == 1)board.readBoard(answer[0]);
+        oldLength = answerLength;
+      }
+        answerList.appendRow({index:answerLength,
+          onclick:function(){console.log(this);
+          }});
+    }).done(function () {
+    });
   });
 }
 
@@ -60,7 +77,7 @@ function addMethod(obj,name,fn){
 }
 
 function expandObject(obj){
- 
+
   if(typeof obj == "object"){
     var s = "";
     for(i in obj){

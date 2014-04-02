@@ -2,21 +2,23 @@ function Solver(){
 
 }
 
-Solver.prototype.checkBoard  = function(n){
-
+Solver.prototype.checkBoard  = function(n,ans){
+  var d = $.Deferred();
   var qBoard = this.init(n);
+  var timer1 = setTimeout(function(){
+
   var i=0;
-  ans = [];
   while(this.genNextBoard(qBoard)){
     i++;
+
     if(this.check(qBoard)){
-      ans.push(this.clone(qBoard));
-      break;
+      d.notify({count:i,answerLength:answer.length});
+      ans.push(this.convertAnswer(this.clone(qBoard)));
     }
   }
-
-
-  return this.convertAnswer(ans[0]);
+  d.resolve();
+  }.bind(this),1);
+  return d.promise();
 };
 
 Solver.prototype.convertAnswer = function(ans){

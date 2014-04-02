@@ -75,6 +75,7 @@ ListData.prototype.createElement = function(){
 
   this.elem = document.createElement("tr");
   var key;
+  console.log(this);
   for(i in this.dataType){
     key = this.dataType[i];
     this.elements[key] = document.createElement("td");
