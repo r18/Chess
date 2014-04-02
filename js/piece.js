@@ -18,6 +18,7 @@ function Piece(scene,type,pos){
 //-----------------------Const
 Piece.prototype.typeToURL = {
   queen : "js/queen.js",
+  pawn: "js/pawn.js",
   board : "js/chess_board.js"
 };
 
