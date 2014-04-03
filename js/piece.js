@@ -20,13 +20,22 @@ function Piece(scene,type,pos){
 
 //-----------------------Const
 Piece.prototype.typeToURL = {
-  queen : "js/queen.js",
-  pawn: "js/pawn.js",
-  board : "js/chess_board.js",
-  rook: "js/rook.js",
-  bishop: "js/bishop.js",
-  king: "js/king.js",
-  knight: "js/knight.js"
+  board : "js/models/chess_board.js",
+
+  w_queen : "js/models/w_queen.js",
+  w_pawn  : "js/models/w_pawn.js",
+  w_rook  : "js/models/w_rook.js",
+  w_bishop: "js/models/w_bishop.js",
+  w_king  : "js/models/w_king.js",
+  w_knight: "js/models/w_knight.js",
+
+  b_queen : "js/models/b_queen.js",
+  b_pawn  : "js/models/b_pawn.js",
+  b_rook  : "js/models/b_rook.js",
+  b_bishop: "js/models/b_bishop.js",
+  b_king  : "js/models/b_king.js",
+  b_knight: "js/models/b_knight.js"
+
 
 
 };
