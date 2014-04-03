@@ -60,7 +60,7 @@ function initGame() {
     board.render();
   }, 310);
   animate(); 
-  //  test();
+    test();
   board.setLight(0,0);
   window.onmousedown = function(e){
     if(e.target == renderer.domElement){
@@ -80,11 +80,7 @@ function initGame() {
 }
 
 function test() {
-  var sphere = new THREE.SphereGeometry(1);
-  var material = new THREE.MeshLambertMaterial( { color: 0xffffff } )
-    var mesh = new THREE.Mesh( sphere, material );
-  mesh.position.set( 0, 0, 0 );
-  board.scene.add( mesh );
+
 
 }
 

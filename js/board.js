@@ -7,12 +7,14 @@ function Board(list) {
   this.camera.position.y = 8;
   this.scene.add(this.camera);
 
+  this.tileList = [];
+
   this.pieces = {};
   this.pieceList = list;
   this.pieceList.setColumn(["name","type","pos"]);
 
-  this.spotLight = new THREE.SpotLight(0xf00ff0,10,36,Math.PI/6,500);
-  light = new THREE.DirectionalLight(0xffffff,2);
+  this.spotLight = new THREE.SpotLight(0xf00ff0,16,36,Math.PI/6,500);
+  light = new THREE.DirectionalLight(0xffffff,4);
   light.position.set(0, 5, 0).normalize();
   this.scene.add(light);
 
@@ -35,6 +37,22 @@ Board.prototype.setLight = function(n,m){
   this.spotLight.position = {x:(n-4)*2.5,y:20,z:(m-3)*2.5};
   this.spotLight.target.position = {x:(n-4)*2.5,y:0,z:(m-3)*2.5};
   this.scene.add(this.spotLight);
+};
+
+Board.prototype.setTile = function (n,m) {
+  var geometry = new THREE.CubeGeometry(2.5,0.3,2.5); 
+  var material = new THREE.MeshBasicMaterial( { color: 0xff0000 } ); 
+  var tile = new THREE.Mesh( geometry, material );
+  tile.position = {x:(n-4)*2.5,y:-0.5,z:(m-3)*2.5};
+  this.tileList.push(tile);
+  board.scene.add(tile);
+};
+
+Board.prototype.removeAllTile = function () {
+ for(i in this.tileList){
+    board.scene.remove(this.tileList[i]);
+ }
+ this.tileList = [];
 };
 
 Board.prototype.linesUp = function(){
