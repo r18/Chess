@@ -1,7 +1,11 @@
 function main(){
+  projector = new THREE.Projector();
+  mouse = {x:0,y:0};
+
   width = 1280;
   height = 640;
   lookAt = new THREE.Vector3(0,3,0);
+
   board = "";
   scene = "";
   animation = true;
@@ -40,7 +44,7 @@ function init(){
   pieceList = new List(document.getElementById("pieceList"));
   answerList = new List(document.getElementById("answerList"));
   answerList.setColumn(["index"]);
-//  show8Queen();
+  //  show8Queen();
   initGame();
 
 }
@@ -53,9 +57,24 @@ function initGame() {
     board.addPiece(d.name,d.type,{m:d.m,n:d.n});
   }
   setTimeout(function() { 
-  board.render();
+    board.render();
   }, 310);
   animate(); 
+  window.onmousedown = function(e){
+    if(e.target == renderer.domElement){
+      var rect = e.target.getBoundingClientRect();
+      mouse = {x:e.clientX - rect.left, y:e.clientY - rect.top};
+      mouse.x = (mouse.x/width)*2 -1;
+      mouse.y = (mouse.y / height) * -2 + 1;
+      var vector = new THREE.Vector3(mouse.x,mouse.y,1);
+      projector.unprojectVector(vector,board.camera);
+      var ray = new THREE.Raycaster( board.camera.position, vector.sub( board.camera.position ).normalize());
+      var obj = ray.intersectObjects(board.scene.children);
+      if( obj.length > 0){
+       console.log(obj[0].object.id);
+      }
+    }
+  };
 }
 
 

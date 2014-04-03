@@ -1,8 +1,9 @@
-function Piece(scene,type,pos){
+function Piece(scene,type,pos,name){
 
   //--------------------Member
   this.type = type;
   this.scene = scene;
+  this.name = name;
 
   var d = $.Deferred();
 

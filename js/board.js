@@ -69,12 +69,12 @@ Board.prototype.readBoard = function(b){
 //------------------------------Overload Methods
 addMethod(Board.prototype,"addPiece",function(name,type,pos){
   this.pieceList.appendRow({name:name,type:type,pos:expandObject(pos)});
-  this.pieces[name] = new Piece(this.scene,type,pos); 
+  this.pieces[name] = new Piece(this.scene,type,pos,name); 
 });
 
 addMethod(Board.prototype,"addPiece",function(name,type){
   this.pieceList.appendRow({name:name,type:type,pos:"{m:0,n:0}"});
-  this.pieces[name] = new Piece(this.scene,type); 
+  this.pieces[name] = new Piece(this.scene,{m:0,n:0},type); 
 });
 
 
