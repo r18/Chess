@@ -60,6 +60,8 @@ function initGame() {
     board.render();
   }, 310);
   animate(); 
+//  test();
+  board.setLight();
   window.onmousedown = function(e){
     if(e.target == renderer.domElement){
       var rect = e.target.getBoundingClientRect();
@@ -71,13 +73,20 @@ function initGame() {
       var ray = new THREE.Raycaster( board.camera.position, vector.sub( board.camera.position ).normalize());
       var obj = ray.intersectObjects(board.scene.children);
       if( obj.length > 0){
-        var piece = board.getPieceWithId(obj[0].object.id);
-        console.log(piece);
+        board.selectWithId(obj[0].object.id);
       }
     }
   };
 }
 
+function test() {
+  var sphere = new THREE.SphereGeometry(1);
+  var material = new THREE.MeshLambertMaterial( { color: 0xffffff } )
+  var mesh = new THREE.Mesh( sphere, material );
+  mesh.position.set( 0, 0, 0 );
+  board.scene.add( mesh );
+
+}
 
 function show8Queen() {
   board = new Board(pieceList);

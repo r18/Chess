@@ -11,17 +11,30 @@ function Board(list) {
   this.pieceList = list;
   this.pieceList.setColumn(["name","type","pos"]);
 
-  light = new THREE.DirectionalLight(0xffffff,10);
-  light.position.set(0, 1, 0).normalize();
+  light = new THREE.DirectionalLight(0xffffff,0);
+  light.position.set(0, 3, 0).normalize();
   this.scene.add(light);
 
   cvs = document.getElementById("cvs");
   renderer = new THREE.WebGLRenderer( {antialias: true} );
   renderer.setSize(width,height);
+  renderer.shadowMapEnabled = true;
 
   board.board = new Piece(this.scene,"board",{x:-1.6,y:-3.4,z:1});
 
   cvs.appendChild(renderer.domElement);
+}
+
+Board.prototype.selectWithId = function (id) {
+  var target = this.getPieceWithId(id);
+  console.log(target);
+}
+
+Board.prototype.setLight = function () {
+  this.spotLight = new THREE.SpotLight(0xf00f00,10,36,Math.PI/6,500);
+  this.spotLight.position.set(0,20,0);
+  this.spotLight.target.position.set( 0, 0, 0 );
+  this.scene.add( this.spotLight);
 }
 
 Board.prototype.linesUp = function(){
