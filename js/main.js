@@ -61,7 +61,7 @@ function initGame() {
   }, 310);
   animate(); 
 //  test();
-  board.setLight();
+  board.setLight(0,0);
   window.onmousedown = function(e){
     if(e.target == renderer.domElement){
       var rect = e.target.getBoundingClientRect();

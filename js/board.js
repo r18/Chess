@@ -11,8 +11,9 @@ function Board(list) {
   this.pieceList = list;
   this.pieceList.setColumn(["name","type","pos"]);
 
-  light = new THREE.DirectionalLight(0xffffff,0);
-  light.position.set(0, 3, 0).normalize();
+  this.spotLight = new THREE.SpotLight(0xf00f00,10,36,Math.PI/6,500);
+  light = new THREE.DirectionalLight(0xffffff,2);
+  light.position.set(0, 5, 0).normalize();
   this.scene.add(light);
 
   cvs = document.getElementById("cvs");
@@ -26,16 +27,15 @@ function Board(list) {
 }
 
 Board.prototype.selectWithId = function (id) {
-  var target = this.getPieceWithId(id);
-  console.log(target);
-}
+  var target = this.getPieceWithId(id).pos;
+  this.setLight(target.n,target.m);
+};
 
-Board.prototype.setLight = function () {
-  this.spotLight = new THREE.SpotLight(0xf00f00,10,36,Math.PI/6,500);
-  this.spotLight.position.set(0,20,0);
-  this.spotLight.target.position.set( 0, 0, 0 );
-  this.scene.add( this.spotLight);
-}
+Board.prototype.setLight = function(n,m){
+  this.spotLight.position = {x:(n-4)*2.5,y:20,z:(m-3)*2.5};
+  this.spotLight.target.position = {x:(n-4)*2.5,y:0,z:(m-3)*2.5};
+  this.scene.add(this.spotLight);
+};
 
 Board.prototype.linesUp = function(){
   var workQueue = [];
