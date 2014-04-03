@@ -1,11 +1,11 @@
-function Piece(scene,type,pos,name){
+function Piece(scene,type,pos){
 
   //--------------------Member
   this.type = type;
   this.scene = scene;
-  this.name = name;
 
   var d = $.Deferred();
+  console.log(this.typeToURL[type]);
 
   //----------------------Initializer 
   this.loadMesh(this.typeToURL[type]).done(function () {

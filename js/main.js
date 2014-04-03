@@ -44,7 +44,7 @@ function init(){
   pieceList = new List(document.getElementById("pieceList"));
   answerList = new List(document.getElementById("answerList"));
   answerList.setColumn(["index"]);
-  //  show8Queen();
+  //show8Queen();
   initGame();
 
 }
@@ -60,7 +60,7 @@ function initGame() {
     board.render();
   }, 310);
   animate(); 
-//  test();
+  //  test();
   board.setLight(0,0);
   window.onmousedown = function(e){
     if(e.target == renderer.domElement){
@@ -82,7 +82,7 @@ function initGame() {
 function test() {
   var sphere = new THREE.SphereGeometry(1);
   var material = new THREE.MeshLambertMaterial( { color: 0xffffff } )
-  var mesh = new THREE.Mesh( sphere, material );
+    var mesh = new THREE.Mesh( sphere, material );
   mesh.position.set( 0, 0, 0 );
   board.scene.add( mesh );
 
@@ -90,7 +90,7 @@ function test() {
 
 function show8Queen() {
   board = new Board(pieceList);
-  for(var i=0;i<8;i++)board.addPiece("q"+i,"queen");
+  for(var i=0;i<8;i++)board.addPiece("q"+i,"w_queen");
   board.board = new Piece(board.scene,"board",{x:-1.6,y:-3.4,z:1});
   board.linesUp().done(function(){
     board.render();

@@ -11,7 +11,7 @@ function Board(list) {
   this.pieceList = list;
   this.pieceList.setColumn(["name","type","pos"]);
 
-  this.spotLight = new THREE.SpotLight(0xf00f00,10,36,Math.PI/6,500);
+  this.spotLight = new THREE.SpotLight(0xf00ff0,10,36,Math.PI/6,500);
   light = new THREE.DirectionalLight(0xffffff,2);
   light.position.set(0, 5, 0).normalize();
   this.scene.add(light);
@@ -89,7 +89,7 @@ Board.prototype.getPieceWithId = function(id){
 //------------------------------Overload Methods
 addMethod(Board.prototype,"addPiece",function(name,type,pos){
   this.pieceList.appendRow({name:name,type:type,pos:expandObject(pos)});
-  this.pieces[name] = new Piece(this.scene,type,pos,name); 
+  this.pieces[name] = new Piece(this.scene,type,pos); 
 });
 
 addMethod(Board.prototype,"addPiece",function(name,type){
