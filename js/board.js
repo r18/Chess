@@ -66,6 +66,13 @@ Board.prototype.readBoard = function(b){
   }
 }
 
+Board.prototype.getPieceWithId = function(id){
+  var pieces = this.pieces;
+  for(i in pieces){
+    if(pieces[i].mesh.id == id)return pieces[i];
+  }
+};
+
 //------------------------------Overload Methods
 addMethod(Board.prototype,"addPiece",function(name,type,pos){
   this.pieceList.appendRow({name:name,type:type,pos:expandObject(pos)});

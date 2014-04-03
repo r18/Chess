@@ -71,7 +71,8 @@ function initGame() {
       var ray = new THREE.Raycaster( board.camera.position, vector.sub( board.camera.position ).normalize());
       var obj = ray.intersectObjects(board.scene.children);
       if( obj.length > 0){
-       console.log(obj[0].object.id);
+        var piece = board.getPieceWithId(obj[0].object.id);
+        console.log(piece);
       }
     }
   };
