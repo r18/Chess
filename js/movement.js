@@ -54,18 +54,8 @@ Movement.prototype.getMovement= function (piece) {
         console.log("there is no rule");
         break;
     }
-  return this.boundaryCheck(res); 
-}
-
-Movement.prototype.boundaryCheck = function (move){
-  var pos;
-  var res = [];
-  for(i in move){
-    pos = move[i];
-    if(pos.m > -1 && pos.m < 8 && pos.n > -1 && pos.n < 8)res.push(move[i]);
-  }
   return res;
-};
+}
 
 Movement.prototype.updateBoard = function () {
   for(i in this.pieces){
@@ -108,6 +98,7 @@ Movement.prototype.typeToCode = {
 Movement.prototype.checkLine = function (pos,res,dn,dm,isWhite) {
   var res = res || [] ;
   var resPos = {m:pos.m+dm, n:pos.n+dn};
+  if(resPos.m > 7 || resPos.m < 0 || resPos.n > 7 || resPos.n < 0)return res;
   var piece = this.getPieceWithIndex(this.getIndex(resPos)); 
   if(piece== 0){
     res.push(resPos);
@@ -117,6 +108,7 @@ Movement.prototype.checkLine = function (pos,res,dn,dm,isWhite) {
   }
   return res;
 }
+
 
 Movement.prototype.getWPawnMovement = function (pos) {
   return [{m:pos.m, n:pos.n+1},
