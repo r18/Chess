@@ -5,9 +5,9 @@ function Piece(scene,type,pos,name){
   this.scene = scene;
   this.name = name;
   this.isMoved = false;
+  this.pos = {};
+  this.twoadv = false;
   var d = $.Deferred();
-  console.log(this.typeToURL[type]);
-
   //----------------------Initializer 
   this.loadMesh(this.typeToURL[type]).done(function () {
     if(pos){ 
@@ -71,6 +71,8 @@ addMethod(Piece.prototype,"setPos",function(x,y,z){
 });
 
 addMethod(Piece.prototype,"setPos",function(n,m){
+  if(!this.isMoved&&this.pos.n - n == 2)this.twoadv = true;
+  else this.twoadv = false;
   this.pos = {n:n,m:m};
   this.mesh.position = {x:(n-4)*this.unit,y:0,z:(m-3)*this.unit};
 });

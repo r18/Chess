@@ -148,7 +148,13 @@ Movement.prototype.isExistFriend = function (array,isWhite) {
 Movement.prototype.getPieceWithPos = function (pos) {
   if(pos.m > 7 || pos.m < 0 || pos.n > 7 || pos.n < 0)return -1;
   return this.getPieceWithIndex(this.getIndex(pos)); 
-}
+};
+
+Movement.prototype.isAbletoEnPassant = function (pos) {
+  var p = board.getPieceWithPos(pos); 
+  if(p == -1)return false;
+  return p.twoadv;
+};
 
 Movement.prototype.getPawnMovement = function (piece,isWhite) {
   var res = [];
@@ -156,6 +162,8 @@ Movement.prototype.getPawnMovement = function (piece,isWhite) {
   var ff = isWhite ? {m:p.m,n:p.n+1} : {m:p.m,n:p.n-1}; 
   var rf = isWhite ? {m:p.m+1,n:p.n+1} : {m:p.m+1,n:p.n-1}; 
   var lf = isWhite ? {m:p.m-1,n:p.n+1} : {m:p.m-1,n:p.n-1}; 
+  var re = {m:p.m+1,n:p.n} 
+  var le = {m:p.m-1,n:p.n}
   var rp = this.getPieceWithPos(rf);
   var lp = this.getPieceWithPos(lf);
   var fp = this.getPieceWithPos(ff);
@@ -169,6 +177,14 @@ Movement.prototype.getPawnMovement = function (piece,isWhite) {
       res.push(fff); 
     }
   } 
+  if(isWhite){
+    if(this.isAbletoEnPassant(re))res.push({m:re.m,n:re.n+1});
+    if(this.isAbletoEnPassant(le))res.push({m:le.m,n:le.n+1});
+  } else {
+    if(this.isAbletoEnPassant(re))res.push({m:re.m,n:re.n-1});
+    if(this.isAbletoEnPassant(le))res.push({m:le.m,n:le.n-1});
+  }
+  
   return res;
 };
 

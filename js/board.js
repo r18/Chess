@@ -127,6 +127,13 @@ Board.prototype.getPieceWithId = function(id){
   }
 };
 
+Board.prototype.getPieceWithPos = function(pos){
+  for(i in this.pieces){
+    if(this.pieces[i].pos.m == pos.m && this.pieces[i].pos.n == pos.n)return this.pieces[i];
+  }
+  return -1;
+};
+
 //------------------------------Overload Methods
 addMethod(Board.prototype,"addPiece",function(name,type,pos){
   this.pieceList.appendRow({name:name,type:type,pos:expandObject(pos)});
