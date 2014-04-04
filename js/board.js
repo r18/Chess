@@ -13,6 +13,8 @@ function Board(list) {
   this.pieceList = list;
   this.pieceList.setColumn(["name","type","pos"]);
 
+  this.moveRule = new Movement(this.pieces);
+
   this.spotLight = new THREE.SpotLight(0xf00ff0,16,36,Math.PI/6,500);
   light = new THREE.DirectionalLight(0xffffff,4);
   light.position.set(0, 5, 0).normalize();
@@ -29,26 +31,34 @@ function Board(list) {
 }
 
 Board.prototype.selectWithId = function (id) {
-  var target = this.getPieceWithId(id).pos;
-  this.setLight(target.n,target.m);
+ this.removeAllTiles();
+  var target = this.getPieceWithId(id);
+  var movements = this.moveRule.getMovement(target);
+  console.log(movements);
+  for(i in movements){
+     this.setTile(movements[i]);
+  }
+  this.setLight(target.pos);
 };
 
-Board.prototype.setLight = function(n,m){
+Board.prototype.setLight = function(pos){
+  var n = pos.n;
+  var m = pos.m;
   this.spotLight.position = {x:(n-4)*2.5,y:20,z:(m-3)*2.5};
   this.spotLight.target.position = {x:(n-4)*2.5,y:0,z:(m-3)*2.5};
   this.scene.add(this.spotLight);
 };
 
-Board.prototype.setTile = function (n,m) {
+Board.prototype.setTile = function (pos) {
   var geometry = new THREE.CubeGeometry(2.5,0.3,2.5); 
   var material = new THREE.MeshBasicMaterial( { color: 0xff0000 } ); 
   var tile = new THREE.Mesh( geometry, material );
-  tile.position = {x:(n-4)*2.5,y:-0.5,z:(m-3)*2.5};
+  tile.position = {x:(pos.n-4)*2.5,y:-0.5,z:(pos.m-3)*2.5};
   this.tileList.push(tile);
   board.scene.add(tile);
 };
 
-Board.prototype.removeAllTile = function () {
+Board.prototype.removeAllTiles = function () {
  for(i in this.tileList){
     board.scene.remove(this.tileList[i]);
  }
