@@ -1,6 +1,7 @@
 function Movement(pieces) {
   this.pieces = pieces;
   this.board = new Uint8Array(64);
+  this.history = [];
 }
 
 Movement.prototype.getMovement= function (piece) {
@@ -55,13 +56,31 @@ Movement.prototype.getMovement= function (piece) {
         break;
     }
   return res;
-}
+};
 
 Movement.prototype.updateBoard = function () {
+  this.history.push(this.cloneBoard(this.board));
+  this.board = new Uint8Array(64);
   for(i in this.pieces){
     var p = this.pieces[i];
     this.board[p.pos.n*8+p.pos.m] = this.typeToCode[p.type];
   }
+};
+
+Movement.prototype.cloneBoard = function (board) {
+  var res = [];
+  for(i in board){
+    res.push(board[i]); 
+  }
+  return res;
+}
+
+Movement.prototype.clearPiece = function (piece) {
+  this.board[piece.pos.n*8+piece.pos.m] = 0;
+};
+
+Movement.prototype.setPiece = function (piece) {
+  this.board[piece.pos.n*8+piece.pos.m] = 0;
 };
 
 Movement.prototype.getPieceCharWithIndex = function(index){
@@ -97,17 +116,21 @@ Movement.prototype.typeToCode = {
 
 Movement.prototype.checkLine = function (pos,res,dn,dm,isWhite) {
   var res = res || [] ;
+  console.log(isWhite);
   var resPos = {m:pos.m+dm, n:pos.n+dn};
   if(resPos.m > 7 || resPos.m < 0 || resPos.n > 7 || resPos.n < 0)return res;
   var piece = this.getPieceWithIndex(this.getIndex(resPos)); 
+  console.log(piece);
   if(piece== 0){
     res.push(resPos);
+    console.log("movable");
     this.checkLine(resPos,res,dn,dm,isWhite);
   } else if((piece > 97 && !isWhite) || (piece < 97 && isWhite)){
     res.push(resPos); 
   }
+  console.log(res);
   return res;
-}
+};
 
 Movement.prototype.isExistFriend = function (array,isWhite) {
   var res = [];
@@ -124,21 +147,22 @@ Movement.prototype.isExistFriend = function (array,isWhite) {
     }
   }
   return res;
-}
+};
 
 Movement.prototype.getWPawnMovement = function (pos,isWhite) {
   return this.isExistFriend([
       {m:pos.m, n:pos.n+1},
       {m:pos.m,n:pos.n+2}
       ],isWhite);
-}
+};
 
 Movement.prototype.getBPawnMovement = function (pos,isWhite) {
   return this.isExistFriend([
       {m:pos.m, n:pos.n-1},
       {m:pos.m,n:pos.n-2}
       ],isWhite);
-}
+};
+
 Movement.prototype.getKnightMovement = function (pos,isWhite) {
   return this.isExistFriend([
       {m:pos.m+1, n:pos.n+2},
@@ -150,9 +174,9 @@ Movement.prototype.getKnightMovement = function (pos,isWhite) {
       {m:pos.m-2, n:pos.n+1},
       {m:pos.m-2, n:pos.n-1}
       ],isWhite);
-}
+};
 
-Movement.prototype.getKingMovement = function (pos) {
+Movement.prototype.getKingMovement = function (pos,isWhite) {
   return this.isExistFriend([
   {m:pos.m+1, n:pos.n+1},
   {m:pos.m, n:pos.n+1},
@@ -166,7 +190,7 @@ Movement.prototype.getKingMovement = function (pos) {
   {m:pos.m-1, n:pos.n-1}
 
   ],isWhite);
-}
+};
 
 Movement.prototype.getRookMovement = function (pos,isWhite) {
   return concatArray([
@@ -175,7 +199,7 @@ Movement.prototype.getRookMovement = function (pos,isWhite) {
       this.checkLine(pos,[],1,0,isWhite),
       this.checkLine(pos,[],-1,0,isWhite)
       ]);
-}
+};
 
 Movement.prototype.getBishopMovement= function (pos,isWhite) {
   return concatArray([
@@ -184,7 +208,7 @@ Movement.prototype.getBishopMovement= function (pos,isWhite) {
       this.checkLine(pos,[],-1,1,isWhite),
       this.checkLine(pos,[],-1,-1,isWhite)
       ]);
-}
+};
 
 Movement.prototype.getQueenMovement = function (pos,isWhite) {
   return concatArray([
@@ -198,5 +222,5 @@ Movement.prototype.getQueenMovement = function (pos,isWhite) {
       this.checkLine(pos,[],1,0,isWhite),
       this.checkLine(pos,[],-1,0,isWhite)
       ]);
-}
+};
 
