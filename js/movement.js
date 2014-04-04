@@ -9,46 +9,46 @@ Movement.prototype.getMovement= function (piece) {
   var res
     switch(piece.type){
       case "w_pawn":
-        res = this.getWPawnMovement(piece.pos,true);
+        res = this.getWPawnMovement(piece,true);
         break;
 
       case "b_pawn":
-        res = this.getBPawnMovement(piece.pos,false);
+        res = this.getBPawnMovement(piece,false);
         break;
 
       case "w_knight":
-        res = this.getKnightMovement(piece.pos,true);
+        res = this.getKnightMovement(piece,true);
         break;
       case "b_knight":
-        res = this.getKnightMovement(piece.pos,false);
+        res = this.getKnightMovement(piece,false);
         break;
 
       case "b_king":
-        res = this.getKingMovement(piece.pos,false);
+        res = this.getKingMovement(piece,false);
         break;
       case "w_king":
-        res = this.getKingMovement(piece.pos,true);
+        res = this.getKingMovement(piece,true);
         break;
 
       case "b_rook":
-        res = this.getRookMovement(piece.pos,false);
+        res = this.getRookMovement(piece,false);
         break;
       case "w_rook":
-        res = this.getRookMovement(piece.pos,true);
+        res = this.getRookMovement(piece,true);
         break;
 
       case "b_bishop":
-        res = this.getBishopMovement(piece.pos,false);
+        res = this.getBishopMovement(piece,false);
         break;
       case "w_bishop":
-        res = this.getBishopMovement(piece.pos,true);
+        res = this.getBishopMovement(piece,true);
         break;
 
       case "b_queen":
-        res = this.getQueenMovement(piece.pos,false);
+        res = this.getQueenMovement(piece,false);
         break;
       case "w_queen":
-        res = this.getQueenMovement(piece.pos,true);
+        res = this.getQueenMovement(piece,true);
         break;
 
       default:
@@ -116,19 +116,15 @@ Movement.prototype.typeToCode = {
 
 Movement.prototype.checkLine = function (pos,res,dn,dm,isWhite) {
   var res = res || [] ;
-  console.log(isWhite);
   var resPos = {m:pos.m+dm, n:pos.n+dn};
   if(resPos.m > 7 || resPos.m < 0 || resPos.n > 7 || resPos.n < 0)return res;
   var piece = this.getPieceWithIndex(this.getIndex(resPos)); 
-  console.log(piece);
   if(piece== 0){
     res.push(resPos);
-    console.log("movable");
     this.checkLine(resPos,res,dn,dm,isWhite);
   } else if((piece > 97 && !isWhite) || (piece < 97 && isWhite)){
     res.push(resPos); 
   }
-  console.log(res);
   return res;
 };
 
@@ -149,78 +145,86 @@ Movement.prototype.isExistFriend = function (array,isWhite) {
   return res;
 };
 
-Movement.prototype.getWPawnMovement = function (pos,isWhite) {
+Movement.prototype.getWPawnMovement = function (piece,isWhite) {
+  if(piece.isMoved)
   return this.isExistFriend([
-      {m:pos.m, n:pos.n+1},
-      {m:pos.m,n:pos.n+2}
+      {m:piece.pos.m, n:piece.pos.n+1}
+      ],isWhite);
+  else return this.isExistFriend([
+      {m:piece.pos.m, n:piece.pos.n+1},
+      {m:piece.pos.m,n:piece.pos.n+2}
       ],isWhite);
 };
 
-Movement.prototype.getBPawnMovement = function (pos,isWhite) {
+Movement.prototype.getBPawnMovement = function (piece,isWhite) {
+ if(piece.isMoved)
   return this.isExistFriend([
-      {m:pos.m, n:pos.n-1},
-      {m:pos.m,n:pos.n-2}
+      {m:piece.pos.m, n:piece.pos.n-1}
+      ],isWhite);
+  else return this.isExistFriend([
+      {m:piece.pos.m, n:piece.pos.n-1},
+      {m:piece.pos.m,n:piece.pos.n-2}
       ],isWhite);
 };
 
-Movement.prototype.getKnightMovement = function (pos,isWhite) {
+Movement.prototype.getKnightMovement = function (piece,isWhite) {
   return this.isExistFriend([
-      {m:pos.m+1, n:pos.n+2},
-      {m:pos.m-1, n:pos.n+2},
-      {m:pos.m+1, n:pos.n-2},
-      {m:pos.m-1, n:pos.n-2},
-      {m:pos.m+2, n:pos.n+1},
-      {m:pos.m+2, n:pos.n-1},
-      {m:pos.m-2, n:pos.n+1},
-      {m:pos.m-2, n:pos.n-1}
+      {m:piece.pos.m+1, n:piece.pos.n+2},
+      {m:piece.pos.m-1, n:piece.pos.n+2},
+      {m:piece.pos.m+1, n:piece.pos.n-2},
+      {m:piece.pos.m-1, n:piece.pos.n-2},
+      {m:piece.pos.m+2, n:piece.pos.n+1},
+      {m:piece.pos.m+2, n:piece.pos.n-1},
+      {m:piece.pos.m-2, n:piece.pos.n+1},
+      {m:piece.pos.m-2, n:piece.pos.n-1}
       ],isWhite);
 };
 
-Movement.prototype.getKingMovement = function (pos,isWhite) {
+Movement.prototype.getKingMovement = function (piece,isWhite) {
   return this.isExistFriend([
-  {m:pos.m+1, n:pos.n+1},
-  {m:pos.m, n:pos.n+1},
-  {m:pos.m-1, n:pos.n+1},
+  {m:piece.pos.m+1, n:piece.pos.n+1},
+  {m:piece.pos.m, n:piece.pos.n+1},
+  {m:piece.pos.m-1, n:piece.pos.n+1},
 
-  {m:pos.m+1, n:pos.n},
-  {m:pos.m-1, n:pos.n},
+  {m:piece.pos.m+1, n:piece.pos.n},
+  {m:piece.pos.m-1, n:piece.pos.n},
 
-  {m:pos.m+1, n:pos.n-1},
-  {m:pos.m,   n:pos.n-1},
-  {m:pos.m-1, n:pos.n-1}
+  {m:piece.pos.m+1, n:piece.pos.n-1},
+  {m:piece.pos.m,   n:piece.pos.n-1},
+  {m:piece.pos.m-1, n:piece.pos.n-1}
 
   ],isWhite);
 };
 
-Movement.prototype.getRookMovement = function (pos,isWhite) {
+Movement.prototype.getRookMovement = function (piece,isWhite) {
   return concatArray([
-      this.checkLine(pos,[],0,1,isWhite),
-      this.checkLine(pos,[],0,-1,isWhite),
-      this.checkLine(pos,[],1,0,isWhite),
-      this.checkLine(pos,[],-1,0,isWhite)
+      this.checkLine(piece.pos,[],0,1,isWhite),
+      this.checkLine(piece.pos,[],0,-1,isWhite),
+      this.checkLine(piece.pos,[],1,0,isWhite),
+      this.checkLine(piece.pos,[],-1,0,isWhite)
       ]);
 };
 
-Movement.prototype.getBishopMovement= function (pos,isWhite) {
+Movement.prototype.getBishopMovement= function (piece,isWhite) {
   return concatArray([
-      this.checkLine(pos,[],1,1,isWhite),
-      this.checkLine(pos,[],1,-1,isWhite),
-      this.checkLine(pos,[],-1,1,isWhite),
-      this.checkLine(pos,[],-1,-1,isWhite)
+      this.checkLine(piece.pos,[],1,1,isWhite),
+      this.checkLine(piece.pos,[],1,-1,isWhite),
+      this.checkLine(piece.pos,[],-1,1,isWhite),
+      this.checkLine(piece.pos,[],-1,-1,isWhite)
       ]);
 };
 
-Movement.prototype.getQueenMovement = function (pos,isWhite) {
+Movement.prototype.getQueenMovement = function (piece,isWhite) {
   return concatArray([
-      this.checkLine(pos,[],1,1,isWhite),
-      this.checkLine(pos,[],1,-1,isWhite),
-      this.checkLine(pos,[],-1,1,isWhite),
-      this.checkLine(pos,[],-1,-1,isWhite),
+      this.checkLine(piece.pos,[],1,1,isWhite),
+      this.checkLine(piece.pos,[],1,-1,isWhite),
+      this.checkLine(piece.pos,[],-1,1,isWhite),
+      this.checkLine(piece.pos,[],-1,-1,isWhite),
 
-      this.checkLine(pos,[],0,1,isWhite),
-      this.checkLine(pos,[],0,-1,isWhite),
-      this.checkLine(pos,[],1,0,isWhite),
-      this.checkLine(pos,[],-1,0,isWhite)
+      this.checkLine(piece.pos,[],0,1,isWhite),
+      this.checkLine(piece.pos,[],0,-1,isWhite),
+      this.checkLine(piece.pos,[],1,0,isWhite),
+      this.checkLine(piece.pos,[],-1,0,isWhite)
       ]);
 };
 

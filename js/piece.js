@@ -4,6 +4,7 @@ function Piece(scene,type,pos,name){
   this.type = type;
   this.scene = scene;
   this.name = name;
+  this.isMoved = false;
   var d = $.Deferred();
   console.log(this.typeToURL[type]);
 
