@@ -104,36 +104,57 @@ Movement.prototype.checkLine = function (pos,res,dn,dm,isWhite) {
     res.push(resPos);
     this.checkLine(resPos,res,dn,dm,isWhite);
   } else if((piece > 97 && !isWhite) || (piece < 97 && isWhite)){
-   res.push(resPos); 
+    res.push(resPos); 
   }
   return res;
 }
 
-
-Movement.prototype.getWPawnMovement = function (pos) {
-  return [{m:pos.m, n:pos.n+1},
-         {m:pos.m,n:pos.n+2}];
+Movement.prototype.isExistFriend = function (array,isWhite) {
+  var res = [];
+  for(i in array){
+    var resPos = array[i];
+    if(resPos.m > 7 || resPos.m < 0 || resPos.n > 7 || resPos.n < 0){
+     continue;
+    }
+    var piece = this.getPieceWithIndex(this.getIndex(resPos)); 
+    console.log(this.getIndex(resPos));
+    if((piece > 97 && !isWhite) || (piece < 97 && isWhite)){
+      res.push(resPos);
+    } else if(piece == 0) {
+      res.push(resPos);
+    }
+  }
+  return res;
 }
 
-Movement.prototype.getBPawnMovement = function (pos) {
-  return [{m:pos.m, n:pos.n-1},
-         {m:pos.m,n:pos.n-2}];
+Movement.prototype.getWPawnMovement = function (pos,isWhite) {
+  return this.isExistFriend([
+      {m:pos.m, n:pos.n+1},
+      {m:pos.m,n:pos.n+2}
+      ],isWhite);
 }
-Movement.prototype.getKnightMovement = function (pos) {
-  return [
-  {m:pos.m+1, n:pos.n+2},
-  {m:pos.m-1, n:pos.n+2},
-  {m:pos.m+1, n:pos.n-2},
-  {m:pos.m-1, n:pos.n-2},
-  {m:pos.m+2, n:pos.n+1},
-  {m:pos.m+2, n:pos.n-1},
-  {m:pos.m-2, n:pos.n+1},
-  {m:pos.m-2, n:pos.n-1}
-  ];
+
+Movement.prototype.getBPawnMovement = function (pos,isWhite) {
+  return this.isExistFriend([
+      {m:pos.m, n:pos.n-1},
+      {m:pos.m,n:pos.n-2}
+      ],isWhite);
+}
+Movement.prototype.getKnightMovement = function (pos,isWhite) {
+  return this.isExistFriend([
+      {m:pos.m+1, n:pos.n+2},
+      {m:pos.m-1, n:pos.n+2},
+      {m:pos.m+1, n:pos.n-2},
+      {m:pos.m-1, n:pos.n-2},
+      {m:pos.m+2, n:pos.n+1},
+      {m:pos.m+2, n:pos.n-1},
+      {m:pos.m-2, n:pos.n+1},
+      {m:pos.m-2, n:pos.n-1}
+      ],isWhite);
 }
 
 Movement.prototype.getKingMovement = function (pos) {
-  return [
+  return this.isExistFriend([
   {m:pos.m+1, n:pos.n+1},
   {m:pos.m, n:pos.n+1},
   {m:pos.m-1, n:pos.n+1},
@@ -145,7 +166,7 @@ Movement.prototype.getKingMovement = function (pos) {
   {m:pos.m,   n:pos.n-1},
   {m:pos.m-1, n:pos.n-1}
 
-  ];
+  ],isWhite);
 }
 
 Movement.prototype.getRookMovement = function (pos,isWhite) {
