@@ -34,7 +34,6 @@ Board.prototype.selectWithId = function (id) {
  this.removeAllTiles();
   var target = this.getPieceWithId(id);
   var movements = this.moveRule.getMovement(target);
-  console.log(movements);
   for(i in movements){
      this.setTile(movements[i]);
   }
