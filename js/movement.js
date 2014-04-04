@@ -1,60 +1,70 @@
 function Movement(pieces) {
- this.pieces = pieces;
- this.board = new Uint8Array(64);
+  this.pieces = pieces;
+  this.board = new Uint8Array(64);
 }
 
 Movement.prototype.getMovement= function (piece) {
   this.updateBoard();
   var res
-  switch(piece.type){
-    case "w_pawn":
-      res = this.getWPawnMovement(piece.pos);
-      break;
+    switch(piece.type){
+      case "w_pawn":
+        res = this.getWPawnMovement(piece.pos,true);
+        break;
 
-    case "b_pawn":
-      res = this.getBPawnMovement(piece.pos);
-      break;
+      case "b_pawn":
+        res = this.getBPawnMovement(piece.pos,false);
+        break;
 
-    case "w_knight":
-    case "b_knight":
-      res = this.getKnightMovement(piece.pos);
-      break;
+      case "w_knight":
+        res = this.getKnightMovement(piece.pos,true);
+        break;
+      case "b_knight":
+        res = this.getKnightMovement(piece.pos,false);
+        break;
 
-    case "b_king":
-    case "w_king":
-      res = this.getKingMovement(piece.pos);
-      break;
+      case "b_king":
+        res = this.getKingMovement(piece.pos,false);
+        break;
+      case "w_king":
+        res = this.getKingMovement(piece.pos,true);
+        break;
 
-    case "b_rook":
-    case "w_rook":
-      res = this.getRookMovement(piece.pos);
-      break;
+      case "b_rook":
+        res = this.getRookMovement(piece.pos,false);
+        break;
+      case "w_rook":
+        res = this.getRookMovement(piece.pos,true);
+        break;
 
-    case "b_bishop":
-    case "w_bishop":
-      res = this.getBishopMovement(piece.pos);
-      break;
+      case "b_bishop":
+        res = this.getBishopMovement(piece.pos,false);
+        break;
+      case "w_bishop":
+        res = this.getBishopMovement(piece.pos,true);
+        break;
 
-    case "b_queen":
-    case "w_queen":
-      res = this.getQueenMovement(piece.pos);
-      break;
+      case "b_queen":
+        res = this.getQueenMovement(piece.pos,false);
+        break;
+      case "w_queen":
+        res = this.getQueenMovement(piece.pos,true);
+        break;
 
-    default:
-      console.log("there is no rule");
-      break;
-  }
+      default:
+        console.log("there is no rule");
+        break;
+    }
   return this.boundaryCheck(res); 
 }
 
 Movement.prototype.boundaryCheck = function (move){
- var pos;
- var res = [];
- for(i in move){
+  var pos;
+  var res = [];
+  for(i in move){
     pos = move[i];
     if(pos.m > -1 && pos.m < 8 && pos.n > -1 && pos.n < 8)res.push(move[i]);
- }
- return res;
+  }
+  return res;
 };
 
 Movement.prototype.updateBoard = function () {
@@ -64,8 +74,12 @@ Movement.prototype.updateBoard = function () {
   }
 };
 
-Movement.prototype.getPieceWithIndex = function(index){
+Movement.prototype.getPieceCharWithIndex = function(index){
   return String.fromCharCode(this.board[index]);
+};
+
+Movement.prototype.getPieceWithIndex = function(index){
+  return this.board[index];
 };
 
 Movement.prototype.getPosition= function (index) {
@@ -77,25 +91,31 @@ Movement.prototype.getIndex= function (pos) {
 };
 
 Movement.prototype.typeToCode = {
-    w_pawn:  112,
-    w_rook:   114,
-    w_bishop: 98,
-    w_knight: 110,
-    w_king:   107,
-    w_queen:  113,
-    b_pawn:   80,
-    b_knight: 78,
-    b_king:   75,
-    b_queen:  81,
-    b_bishop: 66,
-    b_rook:   82
+  w_pawn:  112,
+  w_rook:   114,
+  w_bishop: 98,
+  w_knight: 110,
+  w_king:   107,
+  w_queen:  113,
+  b_pawn:   80,
+  b_knight: 78,
+  b_king:   75,
+  b_queen:  81,
+  b_bishop: 66,
+  b_rook:   82
 };
 
-Movement.prototype.checkLine = function (pos,direction) {
-  var m = pos.m;
-  var n = pos.n;
-  var r = this.getPieceWithIndex(this.getIndex({m:m,n:n}));
-
+Movement.prototype.checkLine = function (pos,res,dn,dm,isWhite) {
+  var res = res || [] ;
+  var resPos = {m:pos.m+dm, n:pos.n+dn};
+  var piece = this.getPieceWithIndex(this.getIndex(resPos)); 
+  if(piece== 0){
+    res.push(resPos);
+    this.checkLine(resPos,res,dn,dm,isWhite);
+  } else if((piece > 97 && !isWhite) || (piece < 97 && isWhite)){
+   res.push(resPos); 
+  }
+  return res;
 }
 
 Movement.prototype.getWPawnMovement = function (pos) {
@@ -136,148 +156,35 @@ Movement.prototype.getKingMovement = function (pos) {
   ];
 }
 
-Movement.prototype.getRookMovement = function (pos) {
-  return [
-  {m:pos.m, n:pos.n+1},
-  {m:pos.m, n:pos.n+2},
-  {m:pos.m, n:pos.n+3},
-  {m:pos.m, n:pos.n+4},
-  {m:pos.m, n:pos.n+5},
-  {m:pos.m, n:pos.n+6},
-  {m:pos.m, n:pos.n+7},
-
-  {m:pos.m, n:pos.n-1},
-  {m:pos.m, n:pos.n-2},
-  {m:pos.m, n:pos.n-3},
-  {m:pos.m, n:pos.n-4},
-  {m:pos.m, n:pos.n-5},
-  {m:pos.m, n:pos.n-6},
-  {m:pos.m, n:pos.n-7},
-
-  {n:pos.n, m:pos.m+1},
-  {n:pos.n, m:pos.m+2},
-  {n:pos.n, m:pos.m+3},
-  {n:pos.n, m:pos.m+4},
-  {n:pos.n, m:pos.m+5},
-  {n:pos.n, m:pos.m+6},
-  {n:pos.n, m:pos.m+7},
-
-  {n:pos.n, m:pos.m-1},
-  {n:pos.n, m:pos.m-2},
-  {n:pos.n, m:pos.m-3},
-  {n:pos.n, m:pos.m-4},
-  {n:pos.n, m:pos.m-5},
-  {n:pos.n, m:pos.m-6},
-  {n:pos.n, m:pos.m-7},
-  ];
+Movement.prototype.getRookMovement = function (pos,isWhite) {
+  return concatArray([
+      this.checkLine(pos,[],0,1,isWhite),
+      this.checkLine(pos,[],0,-1,isWhite),
+      this.checkLine(pos,[],1,0,isWhite),
+      this.checkLine(pos,[],-1,0,isWhite)
+      ]);
 }
 
-Movement.prototype.getBishopMovement= function (pos) {
-  return [
-  {m:pos.m+1, n:pos.n+1},
-  {m:pos.m+2, n:pos.n+2},
-  {m:pos.m+3, n:pos.n+3},
-  {m:pos.m+4, n:pos.n+4},
-  {m:pos.m+5, n:pos.n+5},
-  {m:pos.m+6, n:pos.n+6},
-  {m:pos.m+7, n:pos.n+7},
-
-  {m:pos.m+1, n:pos.n-1},
-  {m:pos.m+2, n:pos.n-2},
-  {m:pos.m+3, n:pos.n-3},
-  {m:pos.m+4, n:pos.n-4},
-  {m:pos.m+5, n:pos.n-5},
-  {m:pos.m+6, n:pos.n-6},
-  {m:pos.m+7, n:pos.n-7},
-
-  {m:pos.m-1, n:pos.n+1},
-  {m:pos.m-2, n:pos.n+2},
-  {m:pos.m-3, n:pos.n+3},
-  {m:pos.m-4, n:pos.n+4},
-  {m:pos.m-5, n:pos.n+5},
-  {m:pos.m-6, n:pos.n+6},
-  {m:pos.m-7, n:pos.n+7},
-
-
-  {m:pos.m-1, n:pos.n-1},
-  {m:pos.m-2, n:pos.n-2},
-  {m:pos.m-3, n:pos.n-3},
-  {m:pos.m-4, n:pos.n-4},
-  {m:pos.m-5, n:pos.n-5},
-  {m:pos.m-6, n:pos.n-6},
-  {m:pos.m-7, n:pos.n-7},
-
-  ];
+Movement.prototype.getBishopMovement= function (pos,isWhite) {
+  return concatArray([
+      this.checkLine(pos,[],1,1,isWhite),
+      this.checkLine(pos,[],1,-1,isWhite),
+      this.checkLine(pos,[],-1,1,isWhite),
+      this.checkLine(pos,[],-1,-1,isWhite)
+      ]);
 }
 
+Movement.prototype.getQueenMovement = function (pos,isWhite) {
+  return concatArray([
+      this.checkLine(pos,[],1,1,isWhite),
+      this.checkLine(pos,[],1,-1,isWhite),
+      this.checkLine(pos,[],-1,1,isWhite),
+      this.checkLine(pos,[],-1,-1,isWhite),
 
-Movement.prototype.getQueenMovement = function (pos) {
-  return [
-
-  {m:pos.m+1, n:pos.n+1},
-  {m:pos.m+2, n:pos.n+2},
-  {m:pos.m+3, n:pos.n+3},
-  {m:pos.m+4, n:pos.n+4},
-  {m:pos.m+5, n:pos.n+5},
-  {m:pos.m+6, n:pos.n+6},
-  {m:pos.m+7, n:pos.n+7},
-
-  {m:pos.m+1, n:pos.n-1},
-  {m:pos.m+2, n:pos.n-2},
-  {m:pos.m+3, n:pos.n-3},
-  {m:pos.m+4, n:pos.n-4},
-  {m:pos.m+5, n:pos.n-5},
-  {m:pos.m+6, n:pos.n-6},
-  {m:pos.m+7, n:pos.n-7},
-
-  {m:pos.m-1, n:pos.n+1},
-  {m:pos.m-2, n:pos.n+2},
-  {m:pos.m-3, n:pos.n+3},
-  {m:pos.m-4, n:pos.n+4},
-  {m:pos.m-5, n:pos.n+5},
-  {m:pos.m-6, n:pos.n+6},
-  {m:pos.m-7, n:pos.n+7},
-
-
-  {m:pos.m-1, n:pos.n-1},
-  {m:pos.m-2, n:pos.n-2},
-  {m:pos.m-3, n:pos.n-3},
-  {m:pos.m-4, n:pos.n-4},
-  {m:pos.m-5, n:pos.n-5},
-  {m:pos.m-6, n:pos.n-6},
-  {m:pos.m-7, n:pos.n-7},
-
-  {m:pos.m, n:pos.n+1},
-  {m:pos.m, n:pos.n+2},
-  {m:pos.m, n:pos.n+3},
-  {m:pos.m, n:pos.n+4},
-  {m:pos.m, n:pos.n+5},
-  {m:pos.m, n:pos.n+6},
-  {m:pos.m, n:pos.n+7},
-
-  {m:pos.m, n:pos.n-1},
-  {m:pos.m, n:pos.n-2},
-  {m:pos.m, n:pos.n-3},
-  {m:pos.m, n:pos.n-4},
-  {m:pos.m, n:pos.n-5},
-  {m:pos.m, n:pos.n-6},
-  {m:pos.m, n:pos.n-7},
-
-  {n:pos.n, m:pos.m+1},
-  {n:pos.n, m:pos.m+2},
-  {n:pos.n, m:pos.m+3},
-  {n:pos.n, m:pos.m+4},
-  {n:pos.n, m:pos.m+5},
-  {n:pos.n, m:pos.m+6},
-  {n:pos.n, m:pos.m+7},
-
-  {n:pos.n, m:pos.m-1},
-  {n:pos.n, m:pos.m-2},
-  {n:pos.n, m:pos.m-3},
-  {n:pos.n, m:pos.m-4},
-  {n:pos.n, m:pos.m-5},
-  {n:pos.n, m:pos.m-6},
-  {n:pos.n, m:pos.m-7},
-  ];
+      this.checkLine(pos,[],0,1,isWhite),
+      this.checkLine(pos,[],0,-1,isWhite),
+      this.checkLine(pos,[],1,0,isWhite),
+      this.checkLine(pos,[],-1,0,isWhite)
+      ]);
 }
 

@@ -129,7 +129,6 @@ function addMethod(obj,name,fn){
 }
 
 function expandObject(obj){
-
   if(typeof obj == "object"){
     var s = "";
     for(i in obj){
@@ -139,6 +138,15 @@ function expandObject(obj){
   } else {
     return obj.toString();
   }
+}
+
+function concatArray(array){
+ console.log(array);
+  var res = array[0];
+  for(var i=1;i< array.length;++i){
+    Array.prototype.push.apply(res,array[i]);
+  }
+  return res;
 }
 
 var defaultPosition = [
