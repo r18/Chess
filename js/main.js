@@ -9,7 +9,7 @@ function main(){
   board = "";
   scene = "";
   animation = true;
-  theta = 6.7;
+  theta = 5.0;
   init();
   window.onkeydown = function(e){
     console.log(e.keyCode); 

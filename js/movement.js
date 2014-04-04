@@ -9,11 +9,11 @@ Movement.prototype.getMovement= function (piece) {
   var res
     switch(piece.type){
       case "w_pawn":
-        res = this.getWPawnMovement(piece,true);
+        res = this.getPawnMovement(piece,true);
         break;
 
       case "b_pawn":
-        res = this.getBPawnMovement(piece,false);
+        res = this.getPawnMovement(piece,false);
         break;
 
       case "w_knight":
@@ -133,7 +133,7 @@ Movement.prototype.isExistFriend = function (array,isWhite) {
   for(i in array){
     var resPos = array[i];
     if(resPos.m > 7 || resPos.m < 0 || resPos.n > 7 || resPos.n < 0){
-     continue;
+      continue;
     }
     var piece = this.getPieceWithIndex(this.getIndex(resPos)); 
     if((piece > 97 && !isWhite) || (piece < 97 && isWhite)){
@@ -145,22 +145,38 @@ Movement.prototype.isExistFriend = function (array,isWhite) {
   return res;
 };
 
-Movement.prototype.getWPawnMovement = function (piece,isWhite) {
-  if(piece.isMoved)
-  return this.isExistFriend([
-      {m:piece.pos.m, n:piece.pos.n+1}
-      ],isWhite);
-  else return this.isExistFriend([
-      {m:piece.pos.m, n:piece.pos.n+1},
-      {m:piece.pos.m,n:piece.pos.n+2}
-      ],isWhite);
+Movement.prototype.getPieceWithPos = function (pos) {
+  if(pos.m > 7 || pos.m < 0 || pos.n > 7 || pos.n < 0)return -1;
+  return this.getPieceWithIndex(this.getIndex(pos)); 
+}
+
+Movement.prototype.getPawnMovement = function (piece,isWhite) {
+  var res = [];
+  var p = piece.pos;
+  var ff = isWhite ? {m:p.m,n:p.n+1} : {m:p.m,n:p.n-1}; 
+  var rf = isWhite ? {m:p.m+1,n:p.n+1} : {m:p.m+1,n:p.n-1}; 
+  var lf = isWhite ? {m:p.m-1,n:p.n+1} : {m:p.m-1,n:p.n-1}; 
+  var rp = this.getPieceWithPos(rf);
+  var lp = this.getPieceWithPos(lf);
+  var fp = this.getPieceWithPos(ff);
+  if((rp != 0) && (rp != -1) && ((rp> 97 && !isWhite) || (rp < 97 && isWhite)))res.push(rf);
+  if((lp != 0) && (lp != -1) && ((lp> 97 && !isWhite) || (lp < 97 && isWhite)))res.push(lf);
+  if(fp != -1 && fp == 0){
+    res.push(ff);
+    var fff = isWhite ? {m:p.m,n:p.n+2} : {m:p.m,n:p.n-2}; 
+    var ffp = this.getPieceWithPos(fff);
+    if((fp != -1 ) && !piece.isMoved ){
+      res.push(fff); 
+    }
+  } 
+  return res;
 };
 
 Movement.prototype.getBPawnMovement = function (piece,isWhite) {
- if(piece.isMoved)
-  return this.isExistFriend([
-      {m:piece.pos.m, n:piece.pos.n-1}
-      ],isWhite);
+  if(piece.isMoved)
+    return this.isExistFriend([
+        {m:piece.pos.m, n:piece.pos.n-1}
+        ],isWhite);
   else return this.isExistFriend([
       {m:piece.pos.m, n:piece.pos.n-1},
       {m:piece.pos.m,n:piece.pos.n-2}
@@ -182,18 +198,18 @@ Movement.prototype.getKnightMovement = function (piece,isWhite) {
 
 Movement.prototype.getKingMovement = function (piece,isWhite) {
   return this.isExistFriend([
-  {m:piece.pos.m+1, n:piece.pos.n+1},
-  {m:piece.pos.m, n:piece.pos.n+1},
-  {m:piece.pos.m-1, n:piece.pos.n+1},
+      {m:piece.pos.m+1, n:piece.pos.n+1},
+      {m:piece.pos.m, n:piece.pos.n+1},
+      {m:piece.pos.m-1, n:piece.pos.n+1},
 
-  {m:piece.pos.m+1, n:piece.pos.n},
-  {m:piece.pos.m-1, n:piece.pos.n},
+      {m:piece.pos.m+1, n:piece.pos.n},
+      {m:piece.pos.m-1, n:piece.pos.n},
 
-  {m:piece.pos.m+1, n:piece.pos.n-1},
-  {m:piece.pos.m,   n:piece.pos.n-1},
-  {m:piece.pos.m-1, n:piece.pos.n-1}
+      {m:piece.pos.m+1, n:piece.pos.n-1},
+      {m:piece.pos.m,   n:piece.pos.n-1},
+      {m:piece.pos.m-1, n:piece.pos.n-1}
 
-  ],isWhite);
+      ],isWhite);
 };
 
 Movement.prototype.getRookMovement = function (piece,isWhite) {

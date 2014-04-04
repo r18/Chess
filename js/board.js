@@ -90,7 +90,7 @@ Board.prototype.render = function() {
   this.camera.position.x = Math.sin(theta)*r; 
   this.camera.position.z = Math.cos(theta)*r ;
   this.camera.position.y = Math.cos(theta/3)*4+10;
-  theta += 0.005;
+  theta += 0.002;
   this.camera.lookAt(lookAt);
   this.draw();
 };
