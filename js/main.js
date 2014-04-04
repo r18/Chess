@@ -71,6 +71,7 @@ function initGame() {
       var vector = new THREE.Vector3(mouse.x,mouse.y,1);
       projector.unprojectVector(vector,board.camera);
       var ray = new THREE.Raycaster( board.camera.position, vector.sub( board.camera.position ).normalize());
+
       var obj = ray.intersectObjects(board.tileList);
       if( obj.length > 0){
         var target = obj[0].object;

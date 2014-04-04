@@ -116,7 +116,7 @@ Board.prototype.readBoard = function(b){
 Board.prototype.updateBoard = function () {
   this.meshList = [];
   for(i in this.pieces){
-    this.meshList.push(this.pieces[i].mesh);
+    if(this.pieces[i].isShow)this.meshList.push(this.pieces[i].mesh);
   }
   this.moveRule.updateBoard();
 }

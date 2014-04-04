@@ -63,7 +63,9 @@ Movement.prototype.updateBoard = function () {
   this.board = new Uint8Array(64);
   for(i in this.pieces){
     var p = this.pieces[i];
-    this.board[p.pos.n*8+p.pos.m] = this.typeToCode[p.type];
+    if(p.isShow){
+      this.board[p.pos.n*8+p.pos.m] = this.typeToCode[p.type];
+    }
   }
 };
 

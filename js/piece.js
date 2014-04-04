@@ -5,6 +5,7 @@ function Piece(scene,type,pos,name){
   this.scene = scene;
   this.name = name;
   this.isMoved = false;
+  this.isShow = true;
   this.pos = {};
   this.twoadv = false;
   var d = $.Deferred();
@@ -58,6 +59,7 @@ Piece.prototype.loadMesh = function(url){
 };
 Piece.prototype.hide = function(){
   this.scene.remove(this.mesh);
+  this.isShow = false;
 };
 
 Piece.prototype.show = function(){
