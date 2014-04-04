@@ -8,6 +8,7 @@ function Board(list) {
   this.scene.add(this.camera);
 
   this.tileList = [];
+  this.meshList = [];
 
   this.pieces = {};
   this.pieceList = list;
@@ -30,12 +31,13 @@ function Board(list) {
   cvs.appendChild(renderer.domElement);
 }
 
+
 Board.prototype.selectWithId = function (id) {
  this.removeAllTiles();
   var target = this.getPieceWithId(id);
   var movements = this.moveRule.getMovement(target);
   for(i in movements){
-     this.setTile(movements[i]);
+     this.setTile(movements[i],name);
   }
   this.setLight(target.pos);
 };
@@ -48,11 +50,13 @@ Board.prototype.setLight = function(pos){
   this.scene.add(this.spotLight);
 };
 
-Board.prototype.setTile = function (pos) {
+Board.prototype.setTile = function (pos,name) {
   var geometry = new THREE.CubeGeometry(2.5,0.3,2.5); 
   var material = new THREE.MeshBasicMaterial( { color: 0xff0000 } ); 
   var tile = new THREE.Mesh( geometry, material );
   tile.position = {x:(pos.n-4)*2.5,y:-0.5,z:(pos.m-3)*2.5};
+  tile.pos = pos;
+  tile.name = name;
   this.tileList.push(tile);
   board.scene.add(tile);
 };
@@ -106,6 +110,13 @@ Board.prototype.readBoard = function(b){
   }
 }
 
+Board.prototype.updateBoard = function () {
+ this.meshList = [];
+  for(i in this.pieces){
+    this.meshList.push(this.pieces[i].mesh);
+  }
+}
+
 Board.prototype.getPieceWithId = function(id){
   var pieces = this.pieces;
   for(i in pieces){
@@ -116,12 +127,12 @@ Board.prototype.getPieceWithId = function(id){
 //------------------------------Overload Methods
 addMethod(Board.prototype,"addPiece",function(name,type,pos){
   this.pieceList.appendRow({name:name,type:type,pos:expandObject(pos)});
-  this.pieces[name] = new Piece(this.scene,type,pos); 
+  this.pieces[name] = new Piece(this.scene,type,pos,name); 
 });
 
 addMethod(Board.prototype,"addPiece",function(name,type){
   this.pieceList.appendRow({name:name,type:type,pos:"{m:0,n:0}"});
-  this.pieces[name] = new Piece(this.scene,{m:0,n:0},type); 
+  this.pieces[name] = new Piece(this.scene,type,{m:0,n:0},name); 
 });
 
 

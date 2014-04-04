@@ -117,7 +117,6 @@ Movement.prototype.isExistFriend = function (array,isWhite) {
      continue;
     }
     var piece = this.getPieceWithIndex(this.getIndex(resPos)); 
-    console.log(this.getIndex(resPos));
     if((piece > 97 && !isWhite) || (piece < 97 && isWhite)){
       res.push(resPos);
     } else if(piece == 0) {

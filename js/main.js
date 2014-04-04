@@ -60,9 +60,9 @@ function initGame() {
     board.render();
   }, 310);
   animate(); 
-    test();
   board.setLight(0,0);
   window.onmousedown = function(e){
+    board.updateBoard();
     if(e.target == renderer.domElement){
       var rect = e.target.getBoundingClientRect();
       mouse = {x:e.clientX - rect.left, y:e.clientY - rect.top};
@@ -71,7 +71,11 @@ function initGame() {
       var vector = new THREE.Vector3(mouse.x,mouse.y,1);
       projector.unprojectVector(vector,board.camera);
       var ray = new THREE.Raycaster( board.camera.position, vector.sub( board.camera.position ).normalize());
-      var obj = ray.intersectObjects(board.scene.children);
+      var obj = ray.intersectObjects(board.tileList);
+      if( obj.length > 0){
+        console.log(obj[0]);
+      }
+      var obj = ray.intersectObjects(board.meshList);
       if( obj.length > 0){
         board.selectWithId(obj[0].object.id);
       }
@@ -141,7 +145,7 @@ function expandObject(obj){
 }
 
 function concatArray(array){
- console.log(array);
+  console.log(array);
   var res = array[0];
   for(var i=1;i< array.length;++i){
     Array.prototype.push.apply(res,array[i]);
