@@ -37,7 +37,7 @@ Board.prototype.selectWithId = function (id) {
   var target = this.getPieceWithId(id);
   var movements = this.moveRule.getMovement(target);
   for(i in movements){
-     this.setTile(movements[i],name);
+     this.setTile(movements[i],target.name);
   }
   this.setLight(target.pos);
 };
