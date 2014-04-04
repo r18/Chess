@@ -26,18 +26,18 @@ function Board(list) {
   renderer.setSize(width,height);
   renderer.shadowMapEnabled = true;
 
-  board.board = new Piece(this.scene,"board",{x:-1.6,y:-3.4,z:1});
+  this.board = new Piece(this.scene,"board",{x:-1.6,y:-3.4,z:1});
 
   cvs.appendChild(renderer.domElement);
 }
 
 
 Board.prototype.selectWithId = function (id) {
- this.removeAllTiles();
+  this.removeAllTiles();
   var target = this.getPieceWithId(id);
   var movements = this.moveRule.getMovement(target);
   for(i in movements){
-     this.setTile(movements[i],target.name);
+    this.setTile(movements[i],target.name);
   }
   this.setLight(target.pos);
 };
@@ -58,14 +58,14 @@ Board.prototype.setTile = function (pos,name) {
   tile.pos = pos;
   tile.name = name;
   this.tileList.push(tile);
-  board.scene.add(tile);
+  this.scene.add(tile);
 };
 
 Board.prototype.removeAllTiles = function () {
- for(i in this.tileList){
-    board.scene.remove(this.tileList[i]);
- }
- this.tileList = [];
+  for(i in this.tileList){
+    this.scene.remove(this.tileList[i]);
+  }
+  this.tileList = [];
 };
 
 Board.prototype.linesUp = function(){
@@ -114,10 +114,11 @@ Board.prototype.readBoard = function(b){
 }
 
 Board.prototype.updateBoard = function () {
- this.meshList = [];
+  this.meshList = [];
   for(i in this.pieces){
     this.meshList.push(this.pieces[i].mesh);
   }
+  this.moveRule.updateBoard();
 }
 
 Board.prototype.getPieceWithId = function(id){

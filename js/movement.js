@@ -184,7 +184,7 @@ Movement.prototype.getPawnMovement = function (piece,isWhite) {
     if(this.isAbletoEnPassant(re))res.push({m:re.m,n:re.n-1});
     if(this.isAbletoEnPassant(le))res.push({m:le.m,n:le.n-1});
   }
-  
+
   return res;
 };
 

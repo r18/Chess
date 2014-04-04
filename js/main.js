@@ -74,7 +74,11 @@ function initGame() {
       var obj = ray.intersectObjects(board.tileList);
       if( obj.length > 0){
         var target = obj[0].object;
+        var p = board.getPieceWithPos(target.pos);
+        if(p != -1)p.hide();
         board.move(target.name,target.pos.n,target.pos.m);
+        board.updateBoard();
+
       }
       var obj = ray.intersectObjects(board.meshList);
       if( obj.length > 0){
