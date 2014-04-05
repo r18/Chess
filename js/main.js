@@ -79,6 +79,7 @@ function initGame() {
         if(p != -1)p.hide();
         board.move(target.name,target.pos.n,target.pos.m);
         board.updateBoard();
+        board.turnChange();
 
       }
       var obj = ray.intersectObjects(board.meshList);

@@ -15,6 +15,7 @@ function Board(list) {
   this.pieceList.setColumn(["name","type","pos"]);
 
   this.moveRule = new Movement(this.pieces);
+  this.isTurnWhite = true;
 
   this.spotLight = new THREE.SpotLight(0xf00ff0,16,36,Math.PI/6,500);
   light = new THREE.DirectionalLight(0xffffff,4);
@@ -31,15 +32,24 @@ function Board(list) {
   cvs.appendChild(renderer.domElement);
 }
 
+Board.prototype.turnChange = function () {
+ this.isTurnWhite = !this.isTurnWhite;
+}
+
+Board.prototype.isWhite = function (piece) {
+  return piece.type.indexOf("w_") != -1;
+}
 
 Board.prototype.selectWithId = function (id) {
   this.removeAllTiles();
   var target = this.getPieceWithId(id);
-  var movements = this.moveRule.getMovement(target);
-  for(i in movements){
-    this.setTile(movements[i],target.name);
+  if(this.isWhite(target) == this.isTurnWhite){
+    var movements = this.moveRule.getMovement(target);
+    for(i in movements){
+      this.setTile(movements[i],target.name);
+    }
+    this.setLight(target.pos);
   }
-  this.setLight(target.pos);
 };
 
 Board.prototype.setLight = function(pos){
